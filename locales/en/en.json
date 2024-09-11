@@ -1,0 +1,54 @@
+{
+  "auth": {
+    "welcome": "Welcome!",
+    "auth": "Authorization",
+    "email": "Email",
+    "password": "Password",
+    "placeholder": {
+      "email": "Enter your email",
+      "password": "Enter your password"},
+    "button": {
+        "login": "Login",
+        "register": "Register"
+    }
+  },
+    "tabs": {
+        "home": "Home",
+        "about": "About",
+        "people": "People",
+        "contacts": "Contacts",
+        "chat": "Chat",
+        "profile": "Profile"
+    },
+    "error": {
+        "email": "Enter a valid email",
+        "password": "Password must be at least 6 characters long"
+    },
+    "profile": {
+        "name": "Name",
+        "surname": "Surname",
+        "age": "Age",
+        "phone": "Phone",
+        "email": "Email",
+        "address": "Address",
+        "city": "City",
+        "country": "Country",
+        "button": {
+            "save": "Save",
+            "cancel": "Cancel"
+        }
+    },
+    "button": {
+        "submit": "Submit",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "edit": "Edit",
+        "add": "Add",
+        "save": "Save",
+        "next": "Next"
+    },
+    "categorySelected": {
+        "chooseCategory": "Choose interesting categories",
+        "minimum": "Minimum 3 categories, and we will create your own selection"
+    }
+}
