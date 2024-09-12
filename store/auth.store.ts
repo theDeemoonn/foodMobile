@@ -4,6 +4,9 @@ import {z} from 'zod';
 import en from "@/locales/en/en.json";
 import ru from "@/locales/ru/ru.json";
 import {I18n} from "i18n-js";
+import {getLocales} from "expo-localization";
+import * as SecureStore from 'expo-secure-store'
+import {User} from "@/type/user.interface";
 
 
 const translations = {
@@ -11,22 +14,25 @@ const translations = {
     ru: ru,
 };
 const i18n = new I18n(translations);
-// i18n.locale = getLocales()[0].languageCode ?? 'en';
-// i18n.enableFallback = true;
+i18n.locale = getLocales()[0].languageCode ?? 'en';
+i18n.enableFallback = true;
 const emailSchema = z.string().email({message: `${i18n.t('error.email')}`});
 const passwordSchema = z.string().min(6, {message: `${i18n.t('error.password')}`});
 
 class AuthStore {
     email: string = '';
+    username: string = '';
     password: string = '';
     confirmPassword: string = '';
     emailError: string = '';
+    usernameError: string = '';
     passwordError: string = '';
     confirmPasswordError: string = '';
     isLoading: boolean = false;
-    isAuthenticated: boolean = false;
+    isAuthenticated: boolean = true;
     accessToken: string | null = null;
     refreshToken: string | null = null;
+    user: User | null = null;
 
     constructor() {
         makeAutoObservable(this);
@@ -138,6 +144,19 @@ class AuthStore {
             } finally {
                 this.setLoading(false);
             }
+        }
+    }
+
+
+    async checkAuth() {
+        const token = await SecureStore.getItemAsync('userToken');
+        if (token) {
+            // Здесь вы можете добавить логику для проверки валидности токена
+            // Например, отправить запрос на сервер для проверки токена
+            this.setAuthenticated(true);
+            this.setAccessToken(token);
+        } else {
+            this.setAuthenticated(false);
         }
     }
 

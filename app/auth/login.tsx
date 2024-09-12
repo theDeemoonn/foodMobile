@@ -15,6 +15,7 @@ import {ThemedInput} from "@/components/ThemedInput";
 import {ThemedIcon} from "@/components/ThemedIcon";
 import {observer} from "mobx-react-lite";
 import authStore from "@/store/auth.store";
+import {Link} from "expo-router";
 
 const AuthComponent = observer(() => {
     const [secureTextEntry, setSecureTextEntry] = useState(true);
@@ -29,7 +30,7 @@ const AuthComponent = observer(() => {
     return (
         <ThemedView style={styles.view}>
 
-            <ThemedText type="title">{i18n.t('auth.welcome')}</ThemedText>
+            <ThemedText  type="title">{i18n.t('auth.welcome')}</ThemedText>
 
 
             <ThemedCard>
@@ -73,15 +74,20 @@ const AuthComponent = observer(() => {
                     {/*        leftIcon={<ThemedIcon name="account-key" size={20}/>}*/}
                     {/*    />*/}
                     {/*)}*/}
-                    {!authStore.isAuthenticated
-                        ?
+                    {/*{!authStore.isAuthenticated*/}
+                    {/*    ?*/}
                         <Button title={i18n.t('auth.button.login')} onPress={() => authStore.login()}  loading={authStore.isLoading} disabled={authStore.isLoading}/>
-                        :
-                        <Button title={i18n.t('auth.button.register')} onPress={() => authStore.register()} loading={authStore.isLoading} disabled={authStore.isLoading}/>
-                    }
+                        {/*:*/}
+                        {/*<Button title={i18n.t('auth.button.register')} onPress={() => authStore.register()} loading={authStore.isLoading} disabled={authStore.isLoading}/>*/}
+                    {/*}*/}
                 </View>
             </ThemedCard>
-
+            <View style={styles.linkContainer}>
+                <ThemedText>{i18n.t('auth.noAccount')} </ThemedText>
+                <Link href="/auth/register">
+                    <ThemedText style={styles.link}>{i18n.t('auth.button.register')}</ThemedText>
+                </Link>
+            </View>
 
         </ThemedView>
 
@@ -93,7 +99,16 @@ const styles = StyleSheet.create({
     view: {
         flex: 1,
         justifyContent: 'center',
-    }
+    },
+
+    linkContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginTop: 20,
+    },
+    link: {
+        color: '#0000FF',
+    },
 })
 
 export default AuthComponent;

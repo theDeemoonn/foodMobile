@@ -1,17 +1,24 @@
 {
   "auth": {
- "welcome": "Приветствуем вас!",
-  "auth": "Авторизация",
+    "welcome": "Приветствуем вас!",
+    "register": "Регистрация",
+    "auth": "Авторизация",
+    "alreadyHaveAccount": "У вас уже есть аккаунт?",
     "email": "Электронная почта",
+    "username": "Имя пользователя",
     "password": "Пароль",
     "placeholder": {
     "email": "Введите электронную почту",
-      "password": "Введите  пароль"
+      "username": "Введите имя пользователя",
+      "password": "Введите  пароль",
+      "confirmPassword": "Подтвердите пароль"
     },
     "button": {
     "login": "Войти",
-      "register": "Зарегистрироваться"
-    }
+      "register": "Зарегистрироваться",
+      "logout": "Выйти"
+    },
+    "noAccount": "Нет аккаунта?"
   },
   "tabs": {
     "home": "Главная",
@@ -34,9 +41,13 @@
         "address": "Адрес",
         "city": "Город",
         "country": "Страна",
+      "interests": "Интересы",
+      "description": "О себе",
+      "favorites": "Любимые заведения",
         "button": {
         "save": "Сохранить",
-        "cancel": "Отмена"
+        "cancel": "Отмена",
+          "editProfile": "Редактировать профиль"
         }
     },
   "button": {
@@ -51,6 +62,22 @@
   "categorySelected": {
     "chooseCategory": "Выбери интересные категории",
     "minimum": "Минимум 3 категории, а мы сформируем твою собственную подборку"
-
+  },
+  "userFilters": {
+    "filters": "Фильтры",
+    "ageRange": "Возрастное диапазон",
+    "gender": {
+      "gender": "Пол",
+      "all": "Все",
+      "male": "Мужчина",
+      "female": "Женщина"
+    },
+    "interests": "Интересы",
+    "applyFilters": "Применить фильтры",
+    "hideFilters": "Скрыть фильтры",
+    "showFilters": "Показать фильтры"
+  },
+  "search": {
+    "placeholder": "Поиск..."
   }
 }

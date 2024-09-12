@@ -6,14 +6,16 @@ interface UserCredentials {
 }
 
 // User интерфейс, представляющий пользователя
-interface User {
+export interface User {
     id?: string;
     email: string;
+    username: string;
     password: string;
     surname: string;
     name: string;
     age: number;
     phone: string;
+    gender?: string;
     interests?: string;
     description?: string;
     avatar?: string;

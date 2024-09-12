@@ -1,21 +1,49 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
+import { SplashScreen, Stack, useRouter, useSegments } from 'expo-router';
 import { useEffect } from 'react';
-import 'react-native-reanimated';
+import { useColorScheme } from 'react-native';
+import { observer } from 'mobx-react-lite';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+import authStore from '@/store/auth.store';
 
+export const unstable_settings = {
+  initialRouteName: '(tabs)',
+};
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
+function RootLayoutNav() {
   const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-      FiraCode: require('../assets/fonts/FiraCode-Regular.ttf'),
+  const segments = useSegments();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!authStore.isAuthenticated && segments[0] !== 'auth') {
+      router.replace('/auth/login');
+    } else if (authStore.isAuthenticated && segments[0] === 'auth') {
+      router.replace('/(tabs)');
+    }
+  }, [authStore.isAuthenticated, segments]);
+
+  return (
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <Stack>
+          <Stack.Screen name="auth" options={{ headerShown: false }} />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        </Stack>
+      </ThemeProvider>
+  );
+}
+
+const RootLayout = observer(() => {
+  const [loaded, error] = useFonts({
+    FiraCode: require('../assets/fonts/FiraCode-Regular.ttf'),
   });
+
+  useEffect(() => {
+    if (error) throw error;
+  }, [error]);
 
   useEffect(() => {
     if (loaded) {
@@ -23,19 +51,15 @@ export default function RootLayout() {
     }
   }, [loaded]);
 
+  // useEffect(() => {
+  //   authStore.checkAuth();
+  // }, []);
+
   if (!loaded) {
     return null;
   }
 
-  return (
+  return <RootLayoutNav />;
+});
 
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-
-
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </ThemeProvider>
-  );
-}
+export default RootLayout;

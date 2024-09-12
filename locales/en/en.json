@@ -2,15 +2,22 @@
   "auth": {
     "welcome": "Welcome!",
     "auth": "Authorization",
+    "register": "Register",
+    "alreadyHaveAccount": "Already have an account?",
     "email": "Email",
+    "username": "Username",
     "password": "Password",
     "placeholder": {
       "email": "Enter your email",
-      "password": "Enter your password"},
+      "username": "Enter your username",
+      "password": "Enter your password"
+    },
     "button": {
         "login": "Login",
-        "register": "Register"
-    }
+        "register": "Register",
+      "logout": "Logout"
+    },
+    "noAccount": "No account?"
   },
     "tabs": {
         "home": "Home",
@@ -33,9 +40,13 @@
         "address": "Address",
         "city": "City",
         "country": "Country",
+      "interests": "Interests",
+      "description": "About me",
+      "favorites": "Favorites",
         "button": {
             "save": "Save",
-            "cancel": "Cancel"
+            "cancel": "Cancel",
+          "editProfile": "Edit profile"
         }
     },
     "button": {
@@ -50,5 +61,22 @@
     "categorySelected": {
         "chooseCategory": "Choose interesting categories",
         "minimum": "Minimum 3 categories, and we will create your own selection"
-    }
+    },
+  "userFilters": {
+    "filters": "Filters",
+    "ageRange": "Age range",
+    "gender": {
+      "gender": "Gender",
+      "all": "All",
+      "male": "Male",
+      "female": "Female"
+    },
+    "interests": "Interests",
+    "applyFilters": "Apply filters",
+    "hideFilters": "Hide filters",
+    "showFilters": "Show filters"
+  },
+  "search": {
+    "placeholder": "Search..."
+  }
 }
