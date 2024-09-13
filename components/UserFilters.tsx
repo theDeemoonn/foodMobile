@@ -12,14 +12,7 @@ import {ThemedText} from "@/components/ThemedText";
 import {useLocalizedData} from "@/hooks/fetchLocalizedData";
 
 
-const { width } = Dimensions.get('window');
 
-const categories: string[] = [
-    'Ментальное здоровье', 'Выставка', 'Спектакль', 'Необычное', 'Stand up',
-    'Кино', 'Концерт', 'Вечеринка', 'Маркет', 'Алкоголь', 'Туристы', 'Экскурсии',
-    '18+', 'Животные', 'Иммерсивное', 'Пушкинская карта', 'Фестиваль', 'Еда',
-    'Лекции', 'Мастер-классы'
-];
 
 interface FiltersProps {
     onApplyFilters: (filters: {
@@ -28,6 +21,8 @@ interface FiltersProps {
         interests: string[];
     }) => void;
 }
+
+const { width } = Dimensions.get('window');
 
 const UserFilters: React.FC<FiltersProps> = ({ onApplyFilters }) => {
     const [ageRange, setAgeRange] = useState<[number, number]>([18, 100]);
@@ -41,8 +36,7 @@ const UserFilters: React.FC<FiltersProps> = ({ onApplyFilters }) => {
     const i18n = new I18n(translations);
     i18n.locale = getLocales()[0].languageCode ?? 'en';
     i18n.enableFallback = true;
-//TODO: fix locale api
-    const [data, isLoading, error] = useLocalizedData<string[]>(`/api/set-language/${i18n.locale}`)
+    const [data, isLoading, error] = useLocalizedData<string[]>(`/categories/${i18n.locale}`, true);
 
     const handleApplyFilters = () => {
         onApplyFilters({ ageRange, gender, interests });
@@ -115,8 +109,8 @@ const UserFilters: React.FC<FiltersProps> = ({ onApplyFilters }) => {
             <ThemedText style={styles.interestsTitle}>{i18n.t('userFilters.interests')}:</ThemedText>
             <ThemedView style={styles.interestsContainer}>
                 {isLoading ? <ActivityIndicator /> : null}
-                {/*{error ? <ThemedText>{error}</ThemedText> : null}*/}
-                {categories?.map((category) => (
+                {error ? <ThemedText>{error}</ThemedText> : null}
+                {data?.map((category) => (
                     <TouchableOpacity
                         key={category}
                         style={[
