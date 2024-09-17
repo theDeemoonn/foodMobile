@@ -5,8 +5,9 @@ import en from "@/locales/en/en.json";
 import ru from "@/locales/ru/ru.json";
 import {I18n} from "i18n-js";
 import {getLocales} from "expo-localization";
-import * as SecureStore from 'expo-secure-store'
 import {User} from "@/type/user.interface";
+import api from "@/constants/Api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const translations = {
@@ -29,9 +30,9 @@ class AuthStore {
     passwordError: string = '';
     confirmPasswordError: string = '';
     isLoading: boolean = false;
-    isAuthenticated: boolean = true;
-    accessToken: string | null = null;
-    refreshToken: string | null = null;
+    isAuthenticated: boolean = false;
+    access_token: string | null = null;
+    refresh_token: string | null = null;
     user: User | null = null;
 
     constructor() {
@@ -70,13 +71,22 @@ class AuthStore {
         this.isAuthenticated = authenticated;
     }
 
-    setAccessToken(token: string | null) {
-        this.accessToken = token;
+    async setAccessToken(token: string) {
+        await AsyncStorage.setItem('access_token', token);
     }
 
-    setRefreshToken(token: string | null) {
-        this.refreshToken = token;
+    async setRefreshToken(token: string) {
+        await AsyncStorage.setItem('refresh_token', token);
     }
+
+    async getAccessToken(): Promise<string | null> {
+        return await AsyncStorage.getItem('access_token');
+    }
+
+    async getRefreshToken(): Promise<string | null> {
+        return await AsyncStorage.getItem('refresh_token');
+    }
+
 
     validateEmail() {
         try {
@@ -122,22 +132,15 @@ class AuthStore {
             this.setLoading(true);
             try {
                 // Замените URL на ваш бэкенд-эндпоинт
-                const response = await fetch('http://localhost:8080/users/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ email: this.email, password: this.password }),
+                const response = await api.post('/auth/login',
+                { email: this.email, password: this.password },
+                { headers: { 'Content-Type': 'application/json' } ,
                 });
 
-                if (!response.ok) {
-                    throw new Error('Ошибка при отправке данных');
-                }
-
-                const data = await response.json();
-                this.setAccessToken(data.accessToken);
-                this.setRefreshToken(data.refreshToken);
+                await this.setAccessToken(response.data.access_token);
+                await this.setRefreshToken(response.data.refresh_token);
                 this.setAuthenticated(true);
+
                 Alert.alert('Успех', 'Авторизация успешна');
             } catch (error: any) {
                 Alert.alert('Ошибка', error.message);
@@ -149,13 +152,21 @@ class AuthStore {
 
 
     async checkAuth() {
-        const token = await SecureStore.getItemAsync('userToken');
-        if (token) {
-            // Здесь вы можете добавить логику для проверки валидности токена
-            // Например, отправить запрос на сервер для проверки токена
-            this.setAuthenticated(true);
-            this.setAccessToken(token);
-        } else {
+        try {
+            const token = await this.getAccessToken();
+            if (token) {
+                const response = await api.post('/auth/validate',
+                    { access_token: token },
+                    { headers: { 'Content-Type': 'application/json' }
+                    });
+                console.log('respons',response.data);
+                // Здесь можно добавить проверку валидности токена, если необходимо /auth/validate
+                this.setAuthenticated(true);
+            } else {
+                this.setAuthenticated(false);
+            }
+        } catch (error) {
+            console.error('Check auth error:', error);
             this.setAuthenticated(false);
         }
     }
@@ -169,21 +180,15 @@ class AuthStore {
             this.setLoading(true);
             try {
                 // Замените URL на ваш бэкенд-эндпоинт
-                const response = await fetch('https://your-backend-endpoint.com/api/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ email: this.email, password: this.password }),
-                });
+                const response = await api.post('/auth/register',
+                    { email: this.email, password: this.password },
+                    { headers: { 'Content-Type': 'application/json' } ,
+                    }, true);
 
-                if (!response.ok) {
-                    throw new Error('Ошибка при отправке данных');
-                }
 
-                const data = await response.json();
-                this.setAccessToken(data.accessToken);
-                this.setRefreshToken(data.refreshToken);
+
+                await this.setAccessToken(response.data.accessToken);
+                await this.setRefreshToken(response.data.refreshToken);
                 this.setAuthenticated(true);
                 Alert.alert('Успех', 'Регистрация успешна');
             } catch (error: any) {
@@ -195,7 +200,7 @@ class AuthStore {
     }
 
     async refreshAccessToken() {
-        if (!this.refreshToken) {
+        if (!this.refresh_token) {
             return;
         }
 
@@ -205,7 +210,7 @@ class AuthStore {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ refreshToken: this.refreshToken }),
+                body: JSON.stringify({ refreshToken: this.refresh_token }),
             });
 
             if (!response.ok) {
@@ -213,21 +218,23 @@ class AuthStore {
             }
 
             const data = await response.json();
-            this.setAccessToken(data.accessToken);
+            await this.setAccessToken(data.accessToken);
         } catch (error: any) {
             Alert.alert('Ошибка', error.message);
-            this.logout();
+            await this.logout();
         }
     }
 
-    logout() {
-        this.setAuthenticated(false);
-        this.setEmail('');
-        this.setPassword('');
-        this.setConfirmPassword('');
-        this.setAccessToken(null);
-        this.setRefreshToken(null);
-        Alert.alert('Успех', 'Вы успешно вышли из системы');
+    async logout() {
+        try {
+            await AsyncStorage.removeItem('access_token');
+            await AsyncStorage.removeItem('refresh_token');
+            this.setAuthenticated(false);
+            this.email = '';
+            this.password = '';
+        } catch (error) {
+            console.error('Logout error:', error);
+        }
     }
 }
 

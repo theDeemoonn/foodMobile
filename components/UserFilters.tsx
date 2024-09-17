@@ -110,9 +110,9 @@ const UserFilters: React.FC<FiltersProps> = ({ onApplyFilters }) => {
             <ThemedView style={styles.interestsContainer}>
                 {isLoading ? <ActivityIndicator /> : null}
                 {error ? <ThemedText>{error}</ThemedText> : null}
-                {data?.map((category) => (
+                {data?.map((category, index) => (
                     <TouchableOpacity
-                        key={category}
+                        key={index}
                         style={[
                             styles.categoryButton,
                             interests.includes(category) && styles.categoryButtonSelected

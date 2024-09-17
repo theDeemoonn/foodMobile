@@ -29,7 +29,13 @@
     "plugins": [
       "expo-router",
       "expo-localization",
-      "expo-secure-store"
+      "expo-secure-store",
+      [
+        "expo-font",
+        {
+          "fonts": ["./assets/fonts/FiraCode-Regular.ttf"]
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
