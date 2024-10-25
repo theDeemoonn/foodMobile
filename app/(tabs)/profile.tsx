@@ -12,8 +12,15 @@ import ru from "@/locales/ru/ru.json";
 import {I18n} from "i18n-js";
 import {getLocales} from "expo-localization";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
+import usersStore from "@/store/users.store";
+import {useEffect} from "react";
 
 const UserProfile = observer(() => {
+
+  useEffect(() => {
+    void usersStore.fetchMe();
+    console.log(usersStore.currentUser, 'usersStore.currentUser');
+  }, []);
 
   const handleLogout = () => {
     authStore.logout();
@@ -32,7 +39,7 @@ const UserProfile = observer(() => {
         <Ionicons name={icon as any} size={24} color={Colors.light.tint} style={styles.infoIcon} />
         <View style={styles.infoTextContainer}>
           <ThemedText style={styles.infoTitle}>{title}</ThemedText>
-          <ThemedText style={styles.infoValue}>{value || 'N/A'}</ThemedText>
+          <ThemedText style={styles.infoValue}>{value || i18n.t('profile.noData')}</ThemedText>
         </View>
       </View>
   );
@@ -46,33 +53,33 @@ const UserProfile = observer(() => {
             <Avatar
                 size="large"
                 rounded
-                source={{ uri: authStore.user?.avatar || `${authStore.user?.name.charAt(0).toUpperCase()} + ${authStore.user?.surname.charAt(0).toUpperCase()}` }}
+                source={{ uri: usersStore.currentUser?.avatar || `${usersStore.currentUser?.name.charAt(0).toUpperCase()} + ${usersStore.currentUser?.surname.charAt(0).toUpperCase()}` }}
                 containerStyle={styles.avatar}
             >
               <Avatar.Accessory size={24} />
             </Avatar>
             <View style={styles.headerText}>
-              <ThemedText style={styles.name}>{authStore.user?.name || 'User Name'}</ThemedText>
-              <ThemedText style={styles.username}>@{authStore.user?.email.split('@')[0]}</ThemedText>
+              <ThemedText style={styles.name}>{usersStore.currentUser?.name || 'User Name'}</ThemedText>
+              <ThemedText style={styles.username}>@{usersStore.currentUser?.email.split('@')[0]}</ThemedText>
             </View>
           </View>
 
-          <TouchableOpacity style={styles.editButton}>
+          <TouchableOpacity onPress={() => usersStore.fetchMe()} style={styles.editButton}>
             <ThemedText style={styles.editButtonText}>{i18n.t('profile.button.editProfile')}</ThemedText>
           </TouchableOpacity>
 
           <ThemedView style={styles.infoContainer}>
-            {renderInfoItem('mail-outline', i18n.t('profile.email'), authStore.user?.email)}
+            {renderInfoItem('mail-outline', i18n.t('profile.email'), usersStore.currentUser?.email)}
             <Divider style={styles.divider} />
-            {renderInfoItem('calendar-outline', i18n.t('profile.age'), authStore.user?.age)}
+            {renderInfoItem('calendar-outline', i18n.t('profile.age'), usersStore.currentUser?.age)}
             <Divider style={styles.divider} />
-            {renderInfoItem('call-outline', i18n.t('profile.phone'), authStore.user?.phone)}
+            {renderInfoItem('call-outline', i18n.t('profile.phone'), usersStore.currentUser?.phone)}
             <Divider style={styles.divider} />
-            {renderInfoItem('people-outline', i18n.t('profile.interests'), authStore.user?.interests)}
+            {renderInfoItem('people-outline', i18n.t('profile.interests'), usersStore.currentUser?.interests)}
             <Divider style={styles.divider} />
-            {renderInfoItem('receipt-outline', i18n.t('profile.description'), authStore.user?.description)}
+            {renderInfoItem('receipt-outline', i18n.t('profile.description'), usersStore.currentUser?.description)}
             <Divider style={styles.divider} />
-            {renderInfoItem('thumbs-up-outline', i18n.t('profile.favorites'), authStore.user?.favorites?.length)}
+            {renderInfoItem('thumbs-up-outline', i18n.t('profile.favorites'), usersStore.currentUser?.favorites?.length)}
           </ThemedView>
 
           <Button

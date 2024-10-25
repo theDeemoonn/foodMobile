@@ -43,6 +43,7 @@
       "interests": "Interests",
       "description": "About me",
       "favorites": "Favorites",
+      "noData": "No data",
         "button": {
             "save": "Save",
             "cancel": "Cancel",

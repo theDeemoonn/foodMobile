@@ -21,24 +21,32 @@ class ApiClient {
     }
 
     private setupInterceptors() {
+        // Перехватчик запросов
         this.privateClient.interceptors.request.use(
             async (config) => {
-                const token = await AsyncStorage.getItem('access_token');
-                if (token) {
-                    config.headers['Authorization'] = `Bearer ${token}`;
+                // Получаем session_id из AsyncStorage
+                const sessionId = await AsyncStorage.getItem('session_id');
+                if (sessionId) {
+                    // Добавляем session_id в заголовок
+                    config.headers['X-Session-ID'] = sessionId;
+                    console.log('Session ID added to headers:', config.headers['X-Session-ID']);
+                } else {
+                    console.warn('No session ID found');
                 }
                 return config;
             },
             (error) => {
+                console.error('Request Interceptor Error:', error);
                 return Promise.reject(error);
             }
         );
 
+        // Перехватчик ответов
         this.privateClient.interceptors.response.use(
             (response) => response,
             async (error) => {
                 const originalRequest = error.config;
-                if (error.response.status === 401 && !originalRequest._retry) {
+                if (error.response && error.response.status === 401 && !originalRequest._retry) {
                     originalRequest._retry = true;
                     try {
                         const refreshToken = await AsyncStorage.getItem('refresh_token');
@@ -49,6 +57,8 @@ class ApiClient {
                         return this.privateClient(originalRequest);
                     } catch (refreshError) {
                         // Handle refresh token failure (e.g., logout user)
+                        await AsyncStorage.removeItem('session_id');
+                        // console.warn('Session expired or invalid, session ID removed');
                         return Promise.reject(refreshError);
                     }
                 }

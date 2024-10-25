@@ -29,7 +29,7 @@ export interface User {
 }
 
 // PaymentMethod интерфейс, представляющий информацию о способе оплаты пользователя
-interface PaymentMethod {
+export interface PaymentMethod {
     id?: string;
     userId: string;
     type: 'cash' | 'card' | 'online';

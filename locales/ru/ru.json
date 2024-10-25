@@ -44,6 +44,7 @@
       "interests": "Интересы",
       "description": "О себе",
       "favorites": "Любимые заведения",
+      "noData": "Данные отсутствуют",
         "button": {
         "save": "Сохранить",
         "cancel": "Отмена",

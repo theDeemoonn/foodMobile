@@ -79,12 +79,20 @@ class AuthStore {
         await AsyncStorage.setItem('refresh_token', token);
     }
 
+    async setSessionId(session_id: string) {
+        await AsyncStorage.setItem('session_id', session_id);
+    }
+
     async getAccessToken(): Promise<string | null> {
         return await AsyncStorage.getItem('access_token');
     }
 
     async getRefreshToken(): Promise<string | null> {
         return await AsyncStorage.getItem('refresh_token');
+    }
+
+    async getSessionId(): Promise<string | null> {
+        return await AsyncStorage.getItem('session_id');
     }
 
 
@@ -134,11 +142,12 @@ class AuthStore {
                 // Замените URL на ваш бэкенд-эндпоинт
                 const response = await api.post('/auth/login',
                 { email: this.email, password: this.password },
-                { headers: { 'Content-Type': 'application/json' } ,
-                });
+                { headers: { 'Content-Type': 'application/json' }
+                }, true);
 
                 await this.setAccessToken(response.data.access_token);
                 await this.setRefreshToken(response.data.refresh_token);
+                await this.setSessionId(response.data.session_id);
                 this.setAuthenticated(true);
 
                 Alert.alert('Успех', 'Авторизация успешна');
@@ -153,16 +162,60 @@ class AuthStore {
 
     async checkAuth() {
         try {
-            const token = await this.getAccessToken();
-            if (token) {
-                const response = await api.post('/auth/validate',
-                    { access_token: token },
-                    { headers: { 'Content-Type': 'application/json' }
-                    });
-                console.log('respons',response.data);
-                // Здесь можно добавить проверку валидности токена, если необходимо /auth/validate
-                this.setAuthenticated(true);
+            const accessToken = await this.getAccessToken();
+
+            if (accessToken) {
+                // Проверяем валидность access token
+                try {
+                    await api.post(
+                        '/auth/validate',
+                        { access_token: accessToken },
+                        { headers: { 'Content-Type': 'application/json' } },
+                        true
+                    );
+                    // Если access token валиден
+                    this.setAuthenticated(true);
+                    return;
+                } catch (error) {
+                    // Если access token недействителен, попробуем обновить его
+                    console.warn('Access token invalid, attempting to refresh.');
+                }
+            }
+
+            // Если access token отсутствует или недействителен, проверяем refresh token
+            const refreshToken = await this.getRefreshToken();
+            if (refreshToken) {
+                try {
+                    // Отправляем запрос на обновление access token
+                    const response = await api.post(
+                        '/auth/refresh',
+                        { refresh_token: refreshToken },
+                        { headers: { 'Content-Type': 'application/json' } },
+                        true
+                    );
+                    const { access_token, refresh_token } = response.data;
+
+                    if (access_token && refresh_token) {
+                        // Сохраняем новые токены
+                        await this.setAccessToken(access_token);
+                        await this.setRefreshToken(refresh_token);
+
+                        this.setAuthenticated(true);
+                    } else {
+                        // Если не удалось получить новые токены
+                        console.warn('Failed to refresh tokens, logging out.');
+                        await this.logout();
+                        this.setAuthenticated(false);
+                    }
+                } catch (error) {
+                    // Ошибка при обновлении токена
+                    console.error('Refresh token invalid or expired:', error);
+                    await this.logout();
+                    this.setAuthenticated(false);
+                }
             } else {
+                // Если refresh token отсутствует
+                console.warn('No refresh token found, user is not authenticated.');
                 this.setAuthenticated(false);
             }
         } catch (error) {
@@ -187,8 +240,8 @@ class AuthStore {
 
 
 
-                await this.setAccessToken(response.data.accessToken);
-                await this.setRefreshToken(response.data.refreshToken);
+                await this.setAccessToken(response.data.access_token);
+                await this.setRefreshToken(response.data.refresh_token);
                 this.setAuthenticated(true);
                 Alert.alert('Успех', 'Регистрация успешна');
             } catch (error: any) {
@@ -229,6 +282,7 @@ class AuthStore {
         try {
             await AsyncStorage.removeItem('access_token');
             await AsyncStorage.removeItem('refresh_token');
+            await AsyncStorage.removeItem('session_id');
             this.setAuthenticated(false);
             this.email = '';
             this.password = '';
