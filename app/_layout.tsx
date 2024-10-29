@@ -6,6 +6,10 @@ import { useEffect, useState } from 'react';
 import { useColorScheme } from 'react-native';
 import { observer } from 'mobx-react-lite';
 import authStore from '@/store/auth.store';
+import en from "@/locales/en/en.json";
+import ru from "@/locales/ru/ru.json";
+import {I18n} from "i18n-js";
+import {getLocales} from "expo-localization";
 
 void SplashScreen.preventAutoHideAsync();
 
@@ -16,6 +20,14 @@ const RootLayout = observer(() => {
   const router = useRouter();
   const segments = useSegments();
   const [isReady, setIsReady] = useState(false);
+
+  const translations = {
+    en: en,
+    ru: ru,
+  };
+  const i18n = new I18n(translations);
+  i18n.locale = getLocales()[0].languageCode ?? 'en';
+  i18n.enableFallback = true;
 
   const [loaded, error] = useFonts({
     FiraCode: require('../assets/fonts/FiraCode-Regular.ttf'),
@@ -61,6 +73,14 @@ const RootLayout = observer(() => {
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          <Stack.Screen
+              name="profile-edit"
+              options={{
+                title: i18n.t('profile.editProfile'),
+                headerBackTitle: i18n.t('button.back'),
+                headerBackTitleVisible: true,
+              }}
+          />
         </Stack>
       </ThemeProvider>
   );

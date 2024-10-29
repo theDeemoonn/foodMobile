@@ -34,6 +34,9 @@ class AuthStore {
     access_token: string | null = null;
     refresh_token: string | null = null;
     user: User | null = null;
+    needsEmailConfirmation: boolean = false;
+    confirmationCode: string = '';
+    confirmationCodeError: string = '';
 
     constructor() {
         makeAutoObservable(this);
@@ -71,12 +74,29 @@ class AuthStore {
         this.isAuthenticated = authenticated;
     }
 
-    async setAccessToken(token: string) {
-        await AsyncStorage.setItem('access_token', token);
+    setConfirmationCode(code: string) {
+        this.confirmationCode = code;
     }
 
-    async setRefreshToken(token: string) {
-        await AsyncStorage.setItem('refresh_token', token);
+    setConfirmationCodeError(error: string) {
+        this.confirmationCodeError = error;
+    }
+
+    async setAccessToken(token: string | null) {
+        if (token !== null && token !== undefined) {
+            await AsyncStorage.setItem('access_token', token);
+        } else {
+            await AsyncStorage.removeItem('access_token');
+        }
+    }
+
+
+    async setRefreshToken(token: string | null) {
+        if (token !== null && token !== undefined) {
+            await AsyncStorage.setItem('refresh_token', token);
+        } else {
+            await AsyncStorage.removeItem('refresh_token');
+        }
     }
 
     async setSessionId(session_id: string) {
@@ -139,18 +159,27 @@ class AuthStore {
         if (isEmailValid && isPasswordValid) {
             this.setLoading(true);
             try {
-                // Замените URL на ваш бэкенд-эндпоинт
-                const response = await api.post('/auth/login',
-                { email: this.email, password: this.password },
-                { headers: { 'Content-Type': 'application/json' }
-                }, true);
+                const response = await api.post(
+                    '/auth/login',
+                    { email: this.email, password: this.password },
+                    { headers: { 'Content-Type': 'application/json' } },
+                    true
+                );
 
-                await this.setAccessToken(response.data.access_token);
-                await this.setRefreshToken(response.data.refresh_token);
-                await this.setSessionId(response.data.session_id);
-                this.setAuthenticated(true);
-
-                Alert.alert('Успех', 'Авторизация успешна');
+                // Check if email is confirmed
+                if (response.data.needsEmailConfirmation) {
+                    this.needsEmailConfirmation = true;
+                    Alert.alert(
+                        'Email не подтвержден',
+                        'Пожалуйста, подтвердите ваш email перед входом в систему.'
+                    );
+                } else {
+                    await this.setAccessToken(response.data.access_token);
+                    await this.setRefreshToken(response.data.refresh_token);
+                    await this.setSessionId(response.data.session_id);
+                    this.setAuthenticated(true);
+                    Alert.alert('Успех', 'Авторизация успешна');
+                }
             } catch (error: any) {
                 Alert.alert('Ошибка', error.message);
             } finally {
@@ -232,23 +261,52 @@ class AuthStore {
         if (isEmailValid && isPasswordValid && isConfirmPasswordValid) {
             this.setLoading(true);
             try {
-                // Замените URL на ваш бэкенд-эндпоинт
                 const response = await api.post('/auth/register',
                     { email: this.email, password: this.password },
                     { headers: { 'Content-Type': 'application/json' } ,
                     }, true);
 
 
+                // console.log(response)
 
-                await this.setAccessToken(response.data.access_token);
-                await this.setRefreshToken(response.data.refresh_token);
-                this.setAuthenticated(true);
-                Alert.alert('Успех', 'Регистрация успешна');
-            } catch (error: any) {
+                // await this.setAccessToken(response.data.access_token);
+                // await this.setRefreshToken(response.data.refresh_token);
+                // this.setAuthenticated(true);
+                this.needsEmailConfirmation = true;
+                Alert.alert('Регистрация успешна', 'Пожалуйста, подтвердите ваш email');            } catch (error: any) {
                 Alert.alert('Ошибка', error.message);
             } finally {
                 this.setLoading(false);
             }
+        }
+    }
+
+    async confirmEmail() {
+        this.setLoading(true);
+        try {
+            const response = await api.post(
+                '/auth/verify',
+                { email: this.email, code: this.confirmationCode },
+                { headers: { 'Content-Type': 'application/json' } },
+                true
+            );
+
+            // If successful, set the user as authenticated
+            await this.setAccessToken(response.data.access_token);
+            await this.setRefreshToken(response.data.refresh_token);
+            this.needsEmailConfirmation = false;
+            this.setAuthenticated(true);
+            this.setConfirmationCode('');
+            Alert.alert('Успех', 'Email подтвержден');
+        } catch (error: any) {
+            if (error.response && error.response.data && error.response.data.message) {
+                this.setConfirmationCodeError(error.response.data.message);
+            } else {
+                this.setConfirmationCodeError(error.message);
+            }
+            Alert.alert('Ошибка', error.message);
+        } finally {
+            this.setLoading(false);
         }
     }
 

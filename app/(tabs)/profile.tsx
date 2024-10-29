@@ -13,7 +13,8 @@ import {I18n} from "i18n-js";
 import {getLocales} from "expo-localization";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
 import usersStore from "@/store/users.store";
-import {useEffect} from "react";
+import {useCallback, useEffect} from "react";
+import {router, useFocusEffect} from "expo-router";
 
 const UserProfile = observer(() => {
 
@@ -22,8 +23,13 @@ const UserProfile = observer(() => {
     console.log(usersStore.currentUser, 'usersStore.currentUser');
   }, []);
 
+
   const handleLogout = () => {
     authStore.logout();
+  };
+
+  const handleEditProfile = () => {
+    router.push('/profile-edit');
   };
 
   const translations = {
@@ -53,18 +59,18 @@ const UserProfile = observer(() => {
             <Avatar
                 size="large"
                 rounded
-                source={{ uri: usersStore.currentUser?.avatar || `${usersStore.currentUser?.name.charAt(0).toUpperCase()} + ${usersStore.currentUser?.surname.charAt(0).toUpperCase()}` }}
+                source={{ uri: usersStore.currentUser?.avatar || `${usersStore.currentUser?.name?.charAt(0).toUpperCase()} + ${usersStore.currentUser?.surname?.charAt(0).toUpperCase()}` }}
                 containerStyle={styles.avatar}
             >
               <Avatar.Accessory size={24} />
             </Avatar>
             <View style={styles.headerText}>
-              <ThemedText style={styles.name}>{usersStore.currentUser?.name || 'User Name'}</ThemedText>
-              <ThemedText style={styles.username}>@{usersStore.currentUser?.email.split('@')[0]}</ThemedText>
+              <ThemedText style={styles.name}>{usersStore.currentUser?.name || 'User Name'} {usersStore.currentUser?.surname || 'User Surname'}</ThemedText>
+              <ThemedText style={styles.username}>@{usersStore.currentUser?.email?.split('@')[0]}</ThemedText>
             </View>
           </View>
 
-          <TouchableOpacity onPress={() => usersStore.fetchMe()} style={styles.editButton}>
+          <TouchableOpacity onPress={handleEditProfile}  style={styles.editButton}>
             <ThemedText style={styles.editButtonText}>{i18n.t('profile.button.editProfile')}</ThemedText>
           </TouchableOpacity>
 

@@ -7,13 +7,17 @@
     "email": "Электронная почта",
     "username": "Имя пользователя",
     "password": "Пароль",
+    "confirmEmail": "Подтвердите свою электронную почту",
+    "enterConfirmationCode": "Введите код подтверждения",
     "placeholder": {
+      "confirmationCode": "Введите код подтверждения",
     "email": "Введите электронную почту",
       "username": "Введите имя пользователя",
       "password": "Введите  пароль",
       "confirmPassword": "Подтвердите пароль"
     },
     "button": {
+      "confirmEmail": "Подтвердить почту",
     "login": "Войти",
       "register": "Зарегистрироваться",
       "logout": "Выйти"
@@ -44,6 +48,7 @@
       "interests": "Интересы",
       "description": "О себе",
       "favorites": "Любимые заведения",
+      "editProfile": "Редактировать профиль",
       "noData": "Данные отсутствуют",
         "button": {
         "save": "Сохранить",
@@ -51,6 +56,17 @@
           "editProfile": "Редактировать профиль"
         }
     },
+  "validation": {
+    "nameRequired": "Введите имя",
+    "surnameRequired": "Введите фамилию",
+    "ageInteger": "Возраст должен быть целым числом",
+    "agePositive": "Возраст должен быть положительным",
+    "ageMax": "Возраст не должен превышать 120 лет",
+    "phoneInvalid": "Некорректный телефон",
+    "emailInvalid": "Некорректный email",
+    "passwordInvalid": "Пароль должен содержать не менее 6 символов",
+    "confirmPassword": "Пароли не совпадают"
+  },
   "button": {
     "submit": "Отправить",
     "cancel": "Отмена",
@@ -58,7 +74,8 @@
     "edit": "Редактировать",
     "add": "Добавить",
     "save": "Сохранить",
-    "next": "Далее"
+    "next": "Далее",
+    "back": "Назад"
   },
   "categorySelected": {
     "chooseCategory": "Выбери интересные категории",

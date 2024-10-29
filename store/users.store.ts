@@ -95,25 +95,21 @@ class UsersStore {
     async updateUserProfile(userId: string, updatedProfile: Partial<User>) {
         this.setLoading(true);
         try {
-            const response = await fetch(`https://api.example.com/users/${userId}`, {
-                method: 'PATCH',
+
+            const response = await api.put(`/users/${userId}`, updatedProfile, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(updatedProfile),
-            });
-            if (!response.ok) {
-                throw new Error('Failed to update user profile');
-            }
-            const updatedUser = await response.json();
-            this.setCurrentUser(updatedUser);
+            })
+
+
+            this.setCurrentUser(response.data);
             this.setError(null);
-            Alert.alert('Success', 'Profile updated successfully');
         } catch (error) {
             this.setError(error instanceof Error ? error.message : 'An unknown error occurred');
-            Alert.alert('Error', 'Failed to update profile');
         } finally {
             this.setLoading(false);
+            await this.fetchMe()
         }
     }
 

@@ -7,12 +7,16 @@
     "email": "Email",
     "username": "Username",
     "password": "Password",
+    "confirmEmail": "Confirm email",
+    "enterConfirmationCode": "Enter confirmation code",
     "placeholder": {
+      "confirmationCode": "Enter confirmation code",
       "email": "Enter your email",
       "username": "Enter your username",
       "password": "Enter your password"
     },
     "button": {
+      "confirmEmail": "Confirm email",
         "login": "Login",
         "register": "Register",
       "logout": "Logout"
@@ -43,6 +47,7 @@
       "interests": "Interests",
       "description": "About me",
       "favorites": "Favorites",
+      "editProfile": "Edit profile",
       "noData": "No data",
         "button": {
             "save": "Save",
@@ -50,6 +55,17 @@
           "editProfile": "Edit profile"
         }
     },
+  "validation": {
+    "nameRequired": "Name is required",
+    "surnameRequired": "Surname is required",
+    "ageInteger": "Age must be an integer",
+    "agePositive": "Age must be a positive number",
+    "ageMax": "Age must be less than or equal to 120",
+    "phoneInvalid": "Phone number is invalid",
+    "emailInvalid": "Email is invalid",
+    "passwordInvalid": "Password must be at least 6 characters long",
+    "confirmPassword": "Passwords do not match"
+  },
     "button": {
         "submit": "Submit",
         "cancel": "Cancel",
@@ -57,7 +73,8 @@
         "edit": "Edit",
         "add": "Add",
         "save": "Save",
-        "next": "Next"
+        "next": "Next",
+      "back": "Back"
     },
     "categorySelected": {
         "chooseCategory": "Choose interesting categories",

@@ -56,6 +56,7 @@ export default function TabLayout() {
         <Tabs.Screen
             name="profile"
             options={{
+                headerShown: false,
                 title:`${i18n.t('tabs.profile')}`,
                 tabBarIcon: ({ color, focused }) => (
                     <TabBarIcon name={focused ? 'person' : 'person-outline'} color={color} />
