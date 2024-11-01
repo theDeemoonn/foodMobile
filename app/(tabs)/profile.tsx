@@ -49,7 +49,7 @@ const UserProfile = observer(() => {
         </View>
       </View>
   );
-
+//TODO: add interests
   return (
       <SafeAreaProvider>
         <SafeAreaView style={{ flex: 1 }} >
@@ -81,7 +81,7 @@ const UserProfile = observer(() => {
             <Divider style={styles.divider} />
             {renderInfoItem('call-outline', i18n.t('profile.phone'), usersStore.currentUser?.phone)}
             <Divider style={styles.divider} />
-            {renderInfoItem('people-outline', i18n.t('profile.interests'), usersStore.currentUser?.interests)}
+            {renderInfoItem('people-outline', i18n.t('profile.interests'), usersStore.currentUser?.interests.length)}
             <Divider style={styles.divider} />
             {renderInfoItem('receipt-outline', i18n.t('profile.description'), usersStore.currentUser?.description)}
             <Divider style={styles.divider} />

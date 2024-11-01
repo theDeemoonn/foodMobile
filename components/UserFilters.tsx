@@ -25,7 +25,7 @@ interface FiltersProps {
 const { width } = Dimensions.get('window');
 
 const UserFilters: React.FC<FiltersProps> = ({ onApplyFilters }) => {
-    const [ageRange, setAgeRange] = useState<[number, number]>([18, 100]);
+    const [ageRange, setAgeRange] = useState<[number, number]>([18, 120]);
     const [gender, setGender] = useState<string>('all');
     const [interests, setInterests] = useState<string[]>([]);
 

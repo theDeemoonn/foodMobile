@@ -1,28 +1,22 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import { Avatar, Card, Chip } from '@rneui/themed';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import { Avatar } from '@rneui/themed';
 import { Ionicons } from '@expo/vector-icons';
 import { ThemedText } from '@/components/ThemedText';
 import { Colors } from '@/constants/Colors';
-import {ThemedCard} from "@/components/ThemedCard";
-import {ThemedView} from "@/components/ThemedView";
+import { ThemedCard } from "@/components/ThemedCard";
+import { ThemedView } from "@/components/ThemedView";
+import { User } from "@/type/user.interface";
+import {Chip} from "@rneui/base";
 
 interface UserCardProps {
-    user: {
-        id: string;
-        surname: string;
-        name: string;
-        age: number;
-        username: string;
-        favorites: string[];
-        description: string;
-        interests: string[];
-        avatar?: string;
-    };
+    user: User;
     onPress: () => void;
 }
 
 const UserCard: React.FC<UserCardProps> = ({ user, onPress }) => {
+    const { avatar, name, surname, username, age, description, interests, favorites = [] } = user;
+
     return (
         <TouchableOpacity onPress={onPress}>
             <ThemedCard style={styles.card}>
@@ -30,33 +24,37 @@ const UserCard: React.FC<UserCardProps> = ({ user, onPress }) => {
                     <Avatar
                         size="medium"
                         rounded
-                        source={{ uri: user.avatar || 'https://via.placeholder.com/150' }}
+                        source={{ uri: avatar || 'https://via.placeholder.com/150' }}
                     />
                     <ThemedView style={styles.nameContainer}>
-                        <ThemedText style={styles.name}>{`${user.name} ${user.surname}`}</ThemedText>
-                        <ThemedText style={styles.username}>@{user.username}</ThemedText>
+                        <ThemedText style={styles.name}>
+                            {(name || '') + ' ' + (surname || '')}
+                        </ThemedText>
+                        {username && <ThemedText style={styles.username}>@{username}</ThemedText>}
                     </ThemedView>
-                    <ThemedText style={styles.age}>{user.age}</ThemedText>
+                    {age !== undefined && <ThemedText style={styles.age}>{age}</ThemedText>}
                 </ThemedView>
+
                 <ThemedText style={styles.description} numberOfLines={2}>
-                    {user.description}
+                    {description || 'No description available'}
                 </ThemedText>
-                <ThemedView style={styles.interestsContainer}>
-                    {user.interests.slice(0, 3).map((interest, index) => (
-                        <Chip
-                            key={index}
-                            title={interest}
-                            buttonStyle={styles.interestChip}
-                            titleStyle={styles.interestChipText}
-                        />
-                    ))}
-                    {user.interests.length > 3 && (
-                        <ThemedText style={styles.moreInterests}>+{user.interests.length - 3}</ThemedText>
-                    )}
-                </ThemedView>
+                {/*<ThemedView style={styles.interestsContainer}>*/}
+                {/*    {interests.slice(0, 3).map((interest, index) => (*/}
+                {/*        <Chip*/}
+                {/*            key={index}*/}
+                {/*            title={interest}*/}
+                {/*            buttonStyle={styles.interestChip}*/}
+                {/*            titleStyle={styles.interestChipText}*/}
+                {/*        />*/}
+                {/*    ))}*/}
+                {/*    {interests.length > 3 && (*/}
+                {/*        <ThemedText style={styles.moreInterests}>+{interests.length - 3}</ThemedText>*/}
+                {/*    )}*/}
+                {/*</ThemedView>*/}
+
                 <ThemedView style={styles.favoritesContainer}>
                     <Ionicons name="heart" size={16} color={Colors.light.tint} />
-                    <ThemedText style={styles.favorites}>{user.favorites.length} favorites</ThemedText>
+                    <ThemedText style={styles.favorites}>{favorites} favorites</ThemedText>
                 </ThemedView>
             </ThemedCard>
         </TouchableOpacity>
@@ -94,10 +92,14 @@ const styles = StyleSheet.create({
         fontSize: 14,
         marginBottom: 10,
     },
-    interestsContainer: {
+    favoritesContainer: {
         flexDirection: 'row',
-        flexWrap: 'wrap',
-        marginBottom: 10,
+        alignItems: 'center',
+    },
+    favorites: {
+        fontSize: 12,
+        color: '#888',
+        marginLeft: 5,
     },
     interestChip: {
         backgroundColor: Colors.light.tint,
@@ -113,14 +115,10 @@ const styles = StyleSheet.create({
         color: Colors.light.tint,
         alignSelf: 'center',
     },
-    favoritesContainer: {
+    interestsContainer: {
         flexDirection: 'row',
-        alignItems: 'center',
-    },
-    favorites: {
-        fontSize: 12,
-        color: '#888',
-        marginLeft: 5,
+        flexWrap: 'wrap',
+        marginBottom: 10,
     },
 });
 

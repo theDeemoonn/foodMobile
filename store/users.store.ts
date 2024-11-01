@@ -14,6 +14,11 @@ class UsersStore {
         makeAutoObservable(this);
     }
 
+
+    getUsers() {
+        return this.users;
+    }
+
     setUsers(users: User[]) {
         this.users = users;
     }
@@ -34,12 +39,13 @@ class UsersStore {
     async fetchUsers() {
         this.setLoading(true);
         try {
-            const response = await fetch('https://api.example.com/users');
-            if (!response.ok) {
-                throw new Error('Failed to fetch users');
-            }
-            const users = await response.json();
-            this.setUsers(users);
+            const response = await api.get<User[]>(`/users`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            this.setUsers(response.data);
             this.setError(null);
         } catch (error) {
             this.setError(error instanceof Error ? error.message : 'An unknown error occurred');
