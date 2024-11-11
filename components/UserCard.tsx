@@ -1,13 +1,13 @@
-import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
-import { Avatar } from '@rneui/themed';
-import { Ionicons } from '@expo/vector-icons';
-import { ThemedText } from '@/components/ThemedText';
-import { Colors } from '@/constants/Colors';
 import { ThemedCard } from "@/components/ThemedCard";
+import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { Colors } from "@/constants/Colors";
 import { User } from "@/type/user.interface";
-import {Chip} from "@rneui/base";
+import { Ionicons } from "@expo/vector-icons";
+import { Chip } from "@rneui/base";
+import { Avatar } from "@rneui/themed";
+import React from "react";
+import { StyleSheet, TouchableOpacity } from "react-native";
 
 interface UserCardProps {
     user: User;
@@ -15,7 +15,16 @@ interface UserCardProps {
 }
 
 const UserCard: React.FC<UserCardProps> = ({ user, onPress }) => {
-    const { avatar, name, surname, username, age, description, interests, favorites = [] } = user;
+    const {
+        avatar,
+        name,
+        surname,
+        username,
+        age,
+        description,
+        interests,
+        favorites = [],
+    } = user;
 
     return (
         <TouchableOpacity onPress={onPress}>
@@ -24,37 +33,45 @@ const UserCard: React.FC<UserCardProps> = ({ user, onPress }) => {
                     <Avatar
                         size="medium"
                         rounded
-                        source={{ uri: avatar || 'https://via.placeholder.com/150' }}
+                        source={{ uri: avatar || "https://via.placeholder.com/150" }}
                     />
                     <ThemedView style={styles.nameContainer}>
                         <ThemedText style={styles.name}>
-                            {(name || '') + ' ' + (surname || '')}
+                            {(name || "") + " " + (surname || "")}
                         </ThemedText>
-                        {username && <ThemedText style={styles.username}>@{username}</ThemedText>}
+                        {username && (
+                            <ThemedText style={styles.username}>@{username}</ThemedText>
+                        )}
                     </ThemedView>
-                    {age !== undefined && <ThemedText style={styles.age}>{age}</ThemedText>}
+                    {age !== undefined && (
+                        <ThemedText style={styles.age}>{age}</ThemedText>
+                    )}
                 </ThemedView>
 
                 <ThemedText style={styles.description} numberOfLines={2}>
-                    {description || 'No description available'}
+                    {description || "No description available"}
                 </ThemedText>
-                {/*<ThemedView style={styles.interestsContainer}>*/}
-                {/*    {interests.slice(0, 3).map((interest, index) => (*/}
-                {/*        <Chip*/}
-                {/*            key={index}*/}
-                {/*            title={interest}*/}
-                {/*            buttonStyle={styles.interestChip}*/}
-                {/*            titleStyle={styles.interestChipText}*/}
-                {/*        />*/}
-                {/*    ))}*/}
-                {/*    {interests.length > 3 && (*/}
-                {/*        <ThemedText style={styles.moreInterests}>+{interests.length - 3}</ThemedText>*/}
-                {/*    )}*/}
-                {/*</ThemedView>*/}
+                <ThemedView style={styles.interestsContainer}>
+                    {interests.slice(0, 3).map((interest, index) => (
+                        <Chip
+                            key={index}
+                            title={interest}
+                            buttonStyle={styles.interestChip}
+                            titleStyle={styles.interestChipText}
+                        />
+                    ))}
+                    {interests.length > 3 && (
+                        <ThemedText style={styles.moreInterests}>
+                            +{interests.length - 3}
+                        </ThemedText>
+                    )}
+                </ThemedView>
 
                 <ThemedView style={styles.favoritesContainer}>
                     <Ionicons name="heart" size={16} color={Colors.light.tint} />
-                    <ThemedText style={styles.favorites}>{favorites} favorites</ThemedText>
+                    <ThemedText style={styles.favorites}>
+                        {favorites} favorites
+                    </ThemedText>
                 </ThemedView>
             </ThemedCard>
         </TouchableOpacity>
@@ -68,8 +85,8 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     header: {
-        flexDirection: 'row',
-        alignItems: 'center',
+        flexDirection: "row",
+        alignItems: "center",
         marginBottom: 10,
     },
     nameContainer: {
@@ -78,27 +95,27 @@ const styles = StyleSheet.create({
     },
     name: {
         fontSize: 16,
-        fontWeight: 'bold',
+        fontWeight: "bold",
     },
     username: {
         fontSize: 14,
-        color: '#888',
+        color: "#888",
     },
     age: {
         fontSize: 16,
-        fontWeight: 'bold',
+        fontWeight: "bold",
     },
     description: {
         fontSize: 14,
         marginBottom: 10,
     },
     favoritesContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
+        flexDirection: "row",
+        alignItems: "center",
     },
     favorites: {
         fontSize: 12,
-        color: '#888',
+        color: "#888",
         marginLeft: 5,
     },
     interestChip: {
@@ -108,16 +125,16 @@ const styles = StyleSheet.create({
     },
     interestChipText: {
         fontSize: 12,
-        color: 'white',
+        color: "white",
     },
     moreInterests: {
         fontSize: 12,
         color: Colors.light.tint,
-        alignSelf: 'center',
+        alignSelf: "center",
     },
     interestsContainer: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
+        flexDirection: "row",
+        flexWrap: "wrap",
         marginBottom: 10,
     },
 });

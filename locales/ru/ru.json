@@ -11,14 +11,14 @@
     "enterConfirmationCode": "Введите код подтверждения",
     "placeholder": {
       "confirmationCode": "Введите код подтверждения",
-    "email": "Введите электронную почту",
+      "email": "Введите электронную почту",
       "username": "Введите имя пользователя",
       "password": "Введите  пароль",
       "confirmPassword": "Подтвердите пароль"
     },
     "button": {
       "confirmEmail": "Подтвердить почту",
-    "login": "Войти",
+      "login": "Войти",
       "register": "Зарегистрироваться",
       "logout": "Выйти"
     },
@@ -36,26 +36,43 @@
     "email": "Введите корректный email",
     "password": "Пароль должен содержать не менее 6 символов"
   },
-    "profile": {
-        "name": "Имя",
-        "surname": "Фамилия",
-        "age": "Возраст",
-        "phone": "Телефон",
-        "email": "Электронная почта",
-        "address": "Адрес",
-        "city": "Город",
-        "country": "Страна",
-      "interests": "Интересы",
-      "description": "О себе",
-      "favorites": "Любимые заведения",
-      "editProfile": "Редактировать профиль",
-      "noData": "Данные отсутствуют",
-        "button": {
-        "save": "Сохранить",
-        "cancel": "Отмена",
-          "editProfile": "Редактировать профиль"
-        }
+  "profile": {
+    "name": "Имя",
+    "surname": "Фамилия",
+    "age": "Возраст",
+    "phone": "Телефон",
+    "email": "Электронная почта",
+    "address": "Адрес",
+    "city": "Город",
+    "country": "Страна",
+    "interests": "Интересы",
+    "description": "О себе",
+    "favorites": "Любимые заведения",
+    "editProfile": "Редактировать профиль",
+    "noData": "Данные отсутствуют",
+    "button": {
+      "save": "Сохранить",
+      "cancel": "Отмена",
+      "editProfile": "Редактировать профиль"
+    }
+  },
+  "startedProfile": {
+    "title": "Начните заполнение профиля",
+    "changePhoto": "Выберите фото",
+    "username": "Ник на сайте",
+    "surname": "Фамилия",
+    "name": "Имя",
+    "age": "Возраст",
+    "phone": "Телефон",
+    "gender": {
+      "gender": "Пол",
+      "male": "Мужчина",
+      "female": "Женщина"
     },
+    "interests": "Интересы",
+    "favorites": "Любимые заведения",
+    "description": "О себе"
+  },
   "validation": {
     "nameRequired": "Введите имя",
     "surnameRequired": "Введите фамилию",
@@ -75,7 +92,8 @@
     "add": "Добавить",
     "save": "Сохранить",
     "next": "Далее",
-    "back": "Назад"
+    "back": "Назад",
+    "close": "Закрыть"
   },
   "categorySelected": {
     "chooseCategory": "Выбери интересные категории",

@@ -8,6 +8,7 @@ import { getLocales } from "expo-localization";
 import { User } from "@/type/user.interface";
 import api from "@/constants/Api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { router } from "expo-router";
 
 const translations = {
   en: en,
@@ -38,6 +39,7 @@ class AuthStore {
   needsEmailConfirmation: boolean = false;
   confirmationCode: string = "";
   confirmationCodeError: string = "";
+  confirmationEmail: string = "";
 
   constructor() {
     makeAutoObservable(this);
@@ -81,6 +83,10 @@ class AuthStore {
 
   setConfirmationCodeError(error: string) {
     this.confirmationCodeError = error;
+  }
+
+  setConfirmationEmail(email: string) {
+    this.confirmationEmail = email;
   }
 
   async setAccessToken(token: string | null) {
@@ -165,7 +171,7 @@ class AuthStore {
           true,
         );
 
-        // Check if email is confirmed
+        // Check if email is confirme
         if (response.data.needsEmailConfirmation) {
           this.needsEmailConfirmation = true;
           Alert.alert(
@@ -268,11 +274,12 @@ class AuthStore {
           true,
         );
 
-        // console.log(response)
+        console.log(response);
 
-        // await this.setAccessToken(response.data.access_token);
-        // await this.setRefreshToken(response.data.refresh_token);
-        // this.setAuthenticated(true);
+        await this.setAccessToken(response.data.access_token);
+        await this.setRefreshToken(response.data.refresh_token);
+        this.setAuthenticated(true);
+        this.setConfirmationEmail(this.email);
         this.needsEmailConfirmation = true;
         Alert.alert("Регистрация успешна", "Пожалуйста, подтвердите ваш email");
       } catch (error: any) {
@@ -285,10 +292,12 @@ class AuthStore {
 
   async confirmEmail() {
     this.setLoading(true);
+    console.log(this.confirmationCode);
+    console.log(this.confirmationEmail);
     try {
       const response = await api.post(
         "/auth/verify",
-        { email: this.email, code: this.confirmationCode },
+        { email: this.confirmationEmail, code: this.confirmationCode },
         { headers: { "Content-Type": "application/json" } },
         true,
       );
@@ -297,6 +306,7 @@ class AuthStore {
       await this.setAccessToken(response.data.access_token);
       await this.setRefreshToken(response.data.refresh_token);
       this.needsEmailConfirmation = false;
+      router.navigate("/profile-started");
       this.setAuthenticated(true);
       this.setConfirmationCode("");
       Alert.alert("Успех", "Email подтвержден");

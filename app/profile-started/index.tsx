@@ -6,7 +6,11 @@ import { Ionicons } from "@expo/vector-icons";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
 import { Button, CheckBox } from "@rneui/themed";
 import * as ImagePicker from "expo-image-picker";
+import { getLocales } from "expo-localization";
 import { useRouter } from "expo-router";
+import { I18n } from "i18n-js";
+import en from "locales/en/en.json";
+import ru from "locales/ru/ru.json";
 import React, { useState } from "react";
 import {
   ActivityIndicator,
@@ -19,6 +23,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { z } from "zod";
 
 const { width } = Dimensions.get("window");
@@ -77,6 +82,14 @@ const CompleteProfile = () => {
 
   // Состояние для ошибок
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const translations = {
+    en: en,
+    ru: ru,
+  };
+  const i18n = new I18n(translations);
+  i18n.locale = getLocales()[0].languageCode ?? "en";
+  i18n.enableFallback = true;
 
   // Функция выбора аватара
   const handleAvatarPick = async () => {
@@ -143,190 +156,217 @@ const CompleteProfile = () => {
   };
 
   return (
-    <ScrollView style={styles.scrollView}>
-      <ThemedView style={styles.container}>
-        <ThemedText style={styles.title}>Заполните ваш профиль</ThemedText>
-
-        {/* Кнопка для выбора аватара */}
-        <Button
-          title="Выбрать аватар"
-          onPress={handleAvatarPick}
-          buttonStyle={styles.modalButton}
-        />
-        {avatar ? (
-          <Image source={{ uri: avatar }} style={styles.avatar} />
-        ) : null}
-        {errors.avatar && <Text style={styles.errorText}>{errors.avatar}</Text>}
-
-        {/* Поля ввода и отображение ошибок */}
-        <TextInput
-          style={styles.input}
-          placeholder="Username"
-          value={username}
-          onChangeText={setUsername}
-        />
-        {errors.username && (
-          <Text style={styles.errorText}>{errors.username}</Text>
-        )}
-
-        <TextInput
-          style={styles.input}
-          placeholder="Фамилия"
-          value={surname}
-          onChangeText={setSurname}
-        />
-        {errors.surname && (
-          <Text style={styles.errorText}>{errors.surname}</Text>
-        )}
-
-        <TextInput
-          style={styles.input}
-          placeholder="Имя"
-          value={name}
-          onChangeText={setName}
-        />
-        {errors.name && <Text style={styles.errorText}>{errors.name}</Text>}
-
-        <ThemedText style={styles.label}>Возраст: {age}</ThemedText>
-        <MultiSlider
-          values={[age]}
-          sliderLength={width - 60}
-          onValuesChange={(values) => setAge(values[0])}
-          min={18}
-          max={120}
-          step={1}
-          selectedStyle={{ backgroundColor: Colors.categorySelected.primary }}
-          markerStyle={{
-            backgroundColor: Colors.light.tint,
-            height: 20,
-            width: 20,
-            borderRadius: 10,
-          }}
-        />
-        {errors.age && <Text style={styles.errorText}>{errors.age}</Text>}
-
-        <TextInput
-          style={styles.input}
-          placeholder="Телефон"
-          value={phone}
-          onChangeText={setPhone}
-          keyboardType="phone-pad"
-        />
-        {errors.phone && <Text style={styles.errorText}>{errors.phone}</Text>}
-
-        <ThemedText style={styles.label}>Пол</ThemedText>
-        <CheckBox
-          title="Все"
-          checked={gender === "all"}
-          onPress={() => setGender("all")}
-          containerStyle={styles.checkboxContainer}
-        />
-        <CheckBox
-          title="Мужской"
-          checked={gender === "male"}
-          onPress={() => setGender("male")}
-          containerStyle={styles.checkboxContainer}
-        />
-        <CheckBox
-          title="Женский"
-          checked={gender === "female"}
-          onPress={() => setGender("female")}
-          containerStyle={styles.checkboxContainer}
-        />
-        {errors.gender && <Text style={styles.errorText}>{errors.gender}</Text>}
-
-        <Button
-          title="Выбрать интересы"
-          onPress={() => setInterestsModalVisible(true)}
-          buttonStyle={styles.modalButton}
-        />
-        {errors.interests && (
-          <Text style={styles.errorText}>{errors.interests}</Text>
-        )}
-
-        <Button
-          title="Выбрать избранное"
-          onPress={() => setFavoritesModalVisible(true)}
-          buttonStyle={styles.modalButton}
-        />
-
-        <TextInput
-          style={[styles.input, styles.textArea]}
-          placeholder="Описание"
-          value={description}
-          onChangeText={setDescription}
-          multiline
-          numberOfLines={4}
-        />
-
-        <Button
-          title="Сохранить"
-          onPress={handleSaveProfile}
-          buttonStyle={styles.saveButton}
-          icon={
-            <Ionicons
-              name="save-outline"
-              size={20}
-              color="white"
-              style={styles.saveIcon}
-            />
-          }
-        />
-
-        {/* Модальное окно для интересов */}
-        <Modal visible={isInterestsModalVisible} animationType="slide">
-          <ScrollView contentContainerStyle={styles.modalContent}>
-            <ThemedText style={styles.modalTitle}>Выберите интересы</ThemedText>
-            {isLoadingInterests ? <ActivityIndicator /> : null}
-            {interestsError ? <ThemedText>{interestsError}</ThemedText> : null}
-            {interestOptions?.map((interest, index) => (
-              <TouchableOpacity
-                key={index}
-                style={[
-                  styles.categoryButton,
-                  interests.includes(interest) && styles.categoryButtonSelected,
-                ]}
-                onPress={() => toggleInterest(interest)}
-              >
-                <ThemedText>{interest}</ThemedText>
-              </TouchableOpacity>
-            ))}
-            <Button
-              title="Закрыть"
-              onPress={() => setInterestsModalVisible(false)}
-            />
-          </ScrollView>
-        </Modal>
-
-        {/* Модальное окно для избранного */}
-        <Modal visible={isFavoritesModalVisible} animationType="slide">
-          <ScrollView contentContainerStyle={styles.modalContent}>
-            <ThemedText style={styles.modalTitle}>
-              Выберите избранное
+    <SafeAreaProvider>
+      <SafeAreaView style={{ flex: 1 }}>
+        <ScrollView style={styles.scrollView}>
+          <ThemedView style={styles.container}>
+            <ThemedText style={styles.title}>
+              {i18n.t("startedProfile.title")}
             </ThemedText>
-            {isLoadingFavorites ? <ActivityIndicator /> : null}
-            {favoritesError ? <ThemedText>{favoritesError}</ThemedText> : null}
-            {favoriteOptions?.map((favorite) => (
-              <TouchableOpacity
-                key={favorite.id}
-                style={[
-                  styles.categoryButton,
-                  favorites.includes(favorite.id) &&
-                    styles.categoryButtonSelected,
-                ]}
-                onPress={() => toggleFavorite(favorite.id)}
-              >
-                <ThemedText>{favorite.name}</ThemedText>
-              </TouchableOpacity>
-            ))}
+
+            {/* Кнопка для выбора аватара */}
             <Button
-              title="Закрыть"
-              onPress={() => setFavoritesModalVisible(false)}
+              title={i18n.t("startedProfile.changePhoto")}
+              onPress={handleAvatarPick}
+              buttonStyle={styles.modalButton}
             />
-          </ScrollView>
-        </Modal>
-      </ThemedView>
-    </ScrollView>
+            {avatar ? (
+              <Image source={{ uri: avatar }} style={styles.avatar} />
+            ) : null}
+            {errors.avatar && (
+              <Text style={styles.errorText}>{errors.avatar}</Text>
+            )}
+
+            {/* Поля ввода и отображение ошибок */}
+            <TextInput
+              style={styles.input}
+              placeholder={i18n.t("startedProfile.username")}
+              value={username}
+              onChangeText={setUsername}
+            />
+            {errors.username && (
+              <Text style={styles.errorText}>{errors.username}</Text>
+            )}
+
+            <TextInput
+              style={styles.input}
+              placeholder={i18n.t("startedProfile.surname")}
+              value={surname}
+              onChangeText={setSurname}
+            />
+            {errors.surname && (
+              <Text style={styles.errorText}>{errors.surname}</Text>
+            )}
+
+            <TextInput
+              style={styles.input}
+              placeholder={i18n.t("startedProfile.name")}
+              value={name}
+              onChangeText={setName}
+            />
+            {errors.name && <Text style={styles.errorText}>{errors.name}</Text>}
+
+            <ThemedText style={styles.label}>
+              {i18n.t("startedProfile.age")}: {age}
+            </ThemedText>
+            <MultiSlider
+              values={[age]}
+              sliderLength={width - 60}
+              onValuesChange={(values) => setAge(values[0])}
+              min={18}
+              max={120}
+              step={1}
+              selectedStyle={{
+                backgroundColor: Colors.categorySelected.primary,
+              }}
+              markerStyle={{
+                backgroundColor: Colors.light.tint,
+                height: 20,
+                width: 20,
+                borderRadius: 10,
+              }}
+            />
+            {errors.age && <Text style={styles.errorText}>{errors.age}</Text>}
+
+            <TextInput
+              style={styles.input}
+              placeholder={i18n.t("startedProfile.phone")}
+              value={phone}
+              onChangeText={setPhone}
+              keyboardType="phone-pad"
+            />
+            {errors.phone && (
+              <Text style={styles.errorText}>{errors.phone}</Text>
+            )}
+
+            <ThemedText style={styles.label}>
+              {i18n.t("startedProfile.gender.gender")}
+            </ThemedText>
+            <CheckBox
+              title={i18n.t("startedProfile.gender.male")}
+              checked={gender === "male"}
+              onPress={() => setGender("male")}
+              containerStyle={styles.checkboxContainer}
+            />
+            <CheckBox
+              title={i18n.t("startedProfile.gender.female")}
+              checked={gender === "female"}
+              onPress={() => setGender("female")}
+              containerStyle={styles.checkboxContainer}
+            />
+            {errors.gender && (
+              <Text style={styles.errorText}>{errors.gender}</Text>
+            )}
+
+            <Button
+              title={i18n.t("startedProfile.interests")}
+              onPress={() => setInterestsModalVisible(true)}
+              buttonStyle={styles.modalButton}
+            />
+            {errors.interests && (
+              <Text style={styles.errorText}>{errors.interests}</Text>
+            )}
+
+            <Button
+              title={i18n.t("startedProfile.favorites")}
+              onPress={() => setFavoritesModalVisible(true)}
+              buttonStyle={styles.modalButton}
+            />
+
+            <TextInput
+              style={[styles.input, styles.textArea]}
+              placeholder={i18n.t("startedProfile.description")}
+              value={description}
+              onChangeText={setDescription}
+              multiline
+              numberOfLines={4}
+            />
+
+            <Button
+              title={i18n.t("button.save")}
+              onPress={handleSaveProfile}
+              buttonStyle={styles.saveButton}
+              icon={
+                <Ionicons
+                  name="save-outline"
+                  size={20}
+                  color="white"
+                  style={styles.saveIcon}
+                />
+              }
+            />
+
+            {/* Модальное окно для интересов */}
+            <Modal visible={isInterestsModalVisible} animationType="slide">
+              <SafeAreaProvider>
+                <SafeAreaView style={{ flex: 1 }}>
+                  <ScrollView contentContainerStyle={styles.modalContent}>
+                    <ThemedText style={styles.modalTitle}>
+                      {i18n.t("startedProfile.interests")}
+                    </ThemedText>
+                    {isLoadingInterests ? <ActivityIndicator /> : null}
+                    {interestsError ? (
+                      <ThemedText>{interestsError}</ThemedText>
+                    ) : null}
+                    {interestOptions?.map((interest, index) => (
+                      <TouchableOpacity
+                        key={index}
+                        style={[
+                          styles.categoryButton,
+                          interests.includes(interest) &&
+                            styles.categoryButtonSelected,
+                        ]}
+                        onPress={() => toggleInterest(interest)}
+                      >
+                        <ThemedText>{interest}</ThemedText>
+                      </TouchableOpacity>
+                    ))}
+                    <Button
+                      title={i18n.t("button.close")}
+                      onPress={() => setInterestsModalVisible(false)}
+                    />
+                  </ScrollView>
+                </SafeAreaView>
+              </SafeAreaProvider>
+            </Modal>
+
+            {/* Модальное окно для избранного */}
+            <Modal visible={isFavoritesModalVisible} animationType="slide">
+              <SafeAreaProvider>
+                <SafeAreaView style={{ flex: 1 }}>
+                  <ScrollView contentContainerStyle={styles.modalContent}>
+                    <ThemedText style={styles.modalTitle}>
+                      {i18n.t("startedProfile.favorites")}
+                    </ThemedText>
+                    {isLoadingFavorites ? <ActivityIndicator /> : null}
+                    {favoritesError ? (
+                      <ThemedText>{favoritesError}</ThemedText>
+                    ) : null}
+                    {favoriteOptions?.map((favorite) => (
+                      <TouchableOpacity
+                        key={favorite.id}
+                        style={[
+                          styles.categoryButton,
+                          favorites.includes(favorite.id) &&
+                            styles.categoryButtonSelected,
+                        ]}
+                        onPress={() => toggleFavorite(favorite.id)}
+                      >
+                        <ThemedText>{favorite.name}</ThemedText>
+                      </TouchableOpacity>
+                    ))}
+                    <Button
+                      title={i18n.t("button.close")}
+                      onPress={() => setFavoritesModalVisible(false)}
+                    />
+                  </ScrollView>
+                </SafeAreaView>
+              </SafeAreaProvider>
+            </Modal>
+          </ThemedView>
+        </ScrollView>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 };
 

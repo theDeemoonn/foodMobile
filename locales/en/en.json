@@ -17,44 +17,61 @@
     },
     "button": {
       "confirmEmail": "Confirm email",
-        "login": "Login",
-        "register": "Register",
+      "login": "Login",
+      "register": "Register",
       "logout": "Logout"
     },
     "noAccount": "No account?"
   },
-    "tabs": {
-        "home": "Home",
-        "about": "About",
-        "people": "People",
-        "contacts": "Contacts",
-        "chat": "Chat",
-        "profile": "Profile"
+  "tabs": {
+    "home": "Home",
+    "about": "About",
+    "people": "People",
+    "contacts": "Contacts",
+    "chat": "Chat",
+    "profile": "Profile"
+  },
+  "error": {
+    "email": "Enter a valid email",
+    "password": "Password must be at least 6 characters long"
+  },
+  "profile": {
+    "name": "Name",
+    "surname": "Surname",
+    "age": "Age",
+    "phone": "Phone",
+    "email": "Email",
+    "address": "Address",
+    "city": "City",
+    "country": "Country",
+    "interests": "Interests",
+    "description": "About me",
+    "favorites": "Favorites",
+    "editProfile": "Edit profile",
+    "noData": "No data",
+    "button": {
+      "save": "Save",
+      "cancel": "Cancel",
+      "editProfile": "Edit profile"
+    }
+  },
+  "startedProfile": {
+    "title": "Начните заполнение профиля",
+    "changePhoto": "Choose photo",
+    "username": "Username",
+    "surname": "Surname",
+    "name": "Name",
+    "age": "Age",
+    "phone": "Phone",
+    "gender": {
+      "gender": "Gender",
+      "male": "Male",
+      "female": "Female"
     },
-    "error": {
-        "email": "Enter a valid email",
-        "password": "Password must be at least 6 characters long"
-    },
-    "profile": {
-        "name": "Name",
-        "surname": "Surname",
-        "age": "Age",
-        "phone": "Phone",
-        "email": "Email",
-        "address": "Address",
-        "city": "City",
-        "country": "Country",
-      "interests": "Interests",
-      "description": "About me",
-      "favorites": "Favorites",
-      "editProfile": "Edit profile",
-      "noData": "No data",
-        "button": {
-            "save": "Save",
-            "cancel": "Cancel",
-          "editProfile": "Edit profile"
-        }
-    },
+    "interests": "Interests",
+    "favorites": "Favorites",
+    "description": "About me"
+  },
   "validation": {
     "nameRequired": "Name is required",
     "surnameRequired": "Surname is required",
@@ -66,20 +83,21 @@
     "passwordInvalid": "Password must be at least 6 characters long",
     "confirmPassword": "Passwords do not match"
   },
-    "button": {
-        "submit": "Submit",
-        "cancel": "Cancel",
-        "delete": "Delete",
-        "edit": "Edit",
-        "add": "Add",
-        "save": "Save",
-        "next": "Next",
-      "back": "Back"
-    },
-    "categorySelected": {
-        "chooseCategory": "Choose interesting categories",
-        "minimum": "Minimum 3 categories, and we will create your own selection"
-    },
+  "button": {
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "save": "Save",
+    "next": "Next",
+    "back": "Back",
+    "close": "Close"
+  },
+  "categorySelected": {
+    "chooseCategory": "Choose interesting categories",
+    "minimum": "Minimum 3 categories, and we will create your own selection"
+  },
   "userFilters": {
     "filters": "Filters",
     "ageRange": "Age range",
