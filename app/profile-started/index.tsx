@@ -2,6 +2,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Colors } from "@/constants/Colors";
 import { useLocalizedData } from "@/hooks/fetchLocalizedData";
+import usersStore from "@/store/users.store";
 import { Ionicons } from "@expo/vector-icons";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
 import { Button, CheckBox } from "@rneui/themed";
@@ -71,9 +72,17 @@ const CompleteProfile = () => {
   const [isInterestsModalVisible, setInterestsModalVisible] = useState(false);
   const [isFavoritesModalVisible, setFavoritesModalVisible] = useState(false);
 
+  const translations = {
+    en: en,
+    ru: ru,
+  };
+  const i18n = new I18n(translations);
+  i18n.locale = getLocales()[0].languageCode ?? "en";
+  i18n.enableFallback = true;
+
   // Данные для интересов и избранных с бэка
   const [interestOptions, isLoadingInterests, interestsError] =
-    useLocalizedData<string[]>(`/categories/interests`, true);
+    useLocalizedData<string[]>(`/categories/${i18n.locale}`, true);
   const [favoriteOptions, isLoadingFavorites, favoritesError] =
     useLocalizedData<{ id: string; name: string }[]>(
       `/categories/favorites`,
@@ -82,14 +91,6 @@ const CompleteProfile = () => {
 
   // Состояние для ошибок
   const [errors, setErrors] = useState<Record<string, string>>({});
-
-  const translations = {
-    en: en,
-    ru: ru,
-  };
-  const i18n = new I18n(translations);
-  i18n.locale = getLocales()[0].languageCode ?? "en";
-  i18n.enableFallback = true;
 
   // Функция выбора аватара
   const handleAvatarPick = async () => {
@@ -151,6 +152,10 @@ const CompleteProfile = () => {
     } else {
       // Если валидация прошла успешно, сохраняем профиль
       console.log("Profile saved:", validationResult.data);
+      usersStore.updateUserProfile(
+        `${usersStore.currentUser?.id}`,
+        validationResult.data,
+      );
       router.replace("/profile"); // Переход на следующий экран
     }
   };
@@ -304,23 +309,25 @@ const CompleteProfile = () => {
                     <ThemedText style={styles.modalTitle}>
                       {i18n.t("startedProfile.interests")}
                     </ThemedText>
-                    {isLoadingInterests ? <ActivityIndicator /> : null}
-                    {interestsError ? (
-                      <ThemedText>{interestsError}</ThemedText>
-                    ) : null}
-                    {interestOptions?.map((interest, index) => (
-                      <TouchableOpacity
-                        key={index}
-                        style={[
-                          styles.categoryButton,
-                          interests.includes(interest) &&
-                            styles.categoryButtonSelected,
-                        ]}
-                        onPress={() => toggleInterest(interest)}
-                      >
-                        <ThemedText>{interest}</ThemedText>
-                      </TouchableOpacity>
-                    ))}
+                    <ThemedView style={styles.interestsContainer}>
+                      {isLoadingInterests ? <ActivityIndicator /> : null}
+                      {interestsError ? (
+                        <ThemedText>{interestsError}</ThemedText>
+                      ) : null}
+                      {interestOptions?.map((interest, index) => (
+                        <TouchableOpacity
+                          key={index}
+                          style={[
+                            styles.categoryButton,
+                            interests.includes(interest) &&
+                              styles.categoryButtonSelected,
+                          ]}
+                          onPress={() => toggleInterest(interest)}
+                        >
+                          <ThemedText>{interest}</ThemedText>
+                        </TouchableOpacity>
+                      ))}
+                    </ThemedView>
                     <Button
                       title={i18n.t("button.close")}
                       onPress={() => setInterestsModalVisible(false)}
@@ -371,30 +378,81 @@ const CompleteProfile = () => {
 };
 
 const styles = StyleSheet.create({
-  scrollView: { flex: 1 },
-  container: { padding: 15 },
-  title: { fontSize: 20, fontWeight: "bold", marginBottom: 15 },
+  scrollView: {
+    flex: 1,
+  },
+
+  container: {
+    padding: 15,
+  },
+
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 15,
+  },
+
   input: {
     backgroundColor: Colors.light.inputBackground || "#f0f0f0",
     borderRadius: 8,
     padding: 10,
     marginBottom: 15,
   },
-  label: { fontSize: 16, marginVertical: 10 },
-  textArea: { height: 100, textAlignVertical: "top" },
+
+  label: {
+    fontSize: 16,
+    marginVertical: 10,
+  },
+
+  textArea: {
+    height: 100,
+    textAlignVertical: "top",
+  },
+
   checkboxContainer: {
     backgroundColor: "transparent",
     borderWidth: 0,
     padding: 0,
     marginVertical: 5,
   },
-  modalButton: { marginBottom: 10, backgroundColor: Colors.light.tint },
-  saveButton: { backgroundColor: Colors.light.tint, marginTop: 20 },
-  saveIcon: { marginRight: 10 },
-  avatar: { width: 100, height: 100, borderRadius: 50, marginBottom: 15 },
-  errorText: { color: "red", fontSize: 12, marginTop: -10, marginBottom: 10 },
-  modalContent: { padding: 20 },
-  modalTitle: { fontSize: 18, fontWeight: "bold", marginBottom: 15 },
+
+  modalButton: {
+    marginBottom: 10,
+    backgroundColor: Colors.light.tint,
+  },
+
+  saveButton: {
+    backgroundColor: Colors.light.tint,
+    marginTop: 20,
+  },
+  saveIcon: {
+    marginRight: 10,
+  },
+
+  avatar: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginBottom: 15,
+  },
+
+  errorText: {
+    color: "red",
+    fontSize: 12,
+    marginTop: -10,
+    marginBottom: 10,
+  },
+
+  modalContent: {
+    padding: 10,
+  },
+
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 15,
+  },
+
   categoryButton: {
     padding: 10,
     margin: 5,
@@ -402,9 +460,16 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: Colors.categorySelected.borderColor,
   },
+
   categoryButtonSelected: {
     backgroundColor: Colors.categorySelected.primary,
     borderColor: Colors.categorySelected.primary,
+  },
+
+  interestsContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    marginBottom: 10,
   },
 });
 

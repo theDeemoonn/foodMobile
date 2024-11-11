@@ -28,6 +28,7 @@ const UserProfile = observer(() => {
 
   const handleEditProfile = () => {
     router.push("/profile-edit");
+    // router.push("/profile-started");
   };
 
   const translations = {
@@ -83,7 +84,10 @@ const UserProfile = observer(() => {
                   {usersStore.currentUser?.surname || "User Surname"}
                 </ThemedText>
                 <ThemedText style={styles.username}>
-                  @{usersStore.currentUser?.email?.split("@")[0]}
+                  @
+                  {usersStore.currentUser?.username
+                    ? usersStore.currentUser?.username
+                    : usersStore.currentUser?.email.split("@")[0]}
                 </ThemedText>
               </View>
             </View>
