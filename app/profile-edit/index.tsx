@@ -1,6 +1,5 @@
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
-import { Colors } from "@/constants/Colors";
+import { ThemedInput } from "@/components/ThemedInput";
+import { BaseStyles } from "@/constants/Colors";
 import en from "@/locales/en/en.json";
 import ru from "@/locales/ru/ru.json";
 import usersStore from "@/store/users.store";
@@ -11,8 +10,11 @@ import { useRouter } from "expo-router";
 import { I18n } from "i18n-js";
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
-import { ScrollView, StyleSheet, TextInput } from "react-native";
+import { ScrollView, Image, StyleSheet, SafeAreaView } from "react-native";
 import { z } from "zod";
+import * as ImagePicker from "expo-image-picker";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
 
 const EditProfile = observer(() => {
     const router = useRouter();
@@ -24,6 +26,7 @@ const EditProfile = observer(() => {
     const [interests, setInterests] = useState(
         usersStore.currentUser?.interests || "",
     );
+    const [avatar, setAvatar] = useState(""); // Используем для хранения URI аватара
     const [description, setDescription] = useState(
         usersStore.currentUser?.description || "",
     );
@@ -39,22 +42,37 @@ const EditProfile = observer(() => {
     i18n.enableFallback = true;
 
     const profileSchema = z.object({
-        name: z.string().min(1, { message: i18n.t("validation.nameRequired") }),
+        name: z.string().min(1, {message: i18n.t("validation.nameRequired")}),
         surname: z
             .string()
-            .min(1, { message: i18n.t("validation.surnameRequired") }),
+            .min(1, {message: i18n.t("validation.surnameRequired")}),
         age: z
             .number()
-            .int({ message: i18n.t("validation.ageInteger") })
-            .positive({ message: i18n.t("validation.agePositive") })
-            .max(120, { message: i18n.t("validation.ageMax") }),
+            .int({message: i18n.t("validation.ageInteger")})
+            .positive({message: i18n.t("validation.agePositive")})
+            .max(120, {message: i18n.t("validation.ageMax")}),
         phone: z
             .string()
-            .min(10, { message: i18n.t("validation.phoneInvalid") })
-            .regex(/^\+?\d{10,15}$/, { message: i18n.t("validation.phoneInvalid") }),
+            .min(10, {message: i18n.t("validation.phoneInvalid")})
+            .regex(/^\+?\d{10,15}$/, {message: i18n.t("validation.phoneInvalid")}),
         interests: z.array(z.string()).optional(),
         description: z.string().optional(),
+        avatar: z.string().optional(),
     });
+
+    // Функция выбора аватара
+    const handleAvatarPick = async () => {
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [1, 1],
+            quality: 1,
+        });
+
+        if (!result.canceled && result.assets?.[0].uri) {
+            setAvatar(result.assets[0].uri); // Устанавливаем URI выбранного изображения
+        }
+    };
 
     const handleSave = async () => {
         const interestsArray =
@@ -64,6 +82,7 @@ const EditProfile = observer(() => {
 
         const validationResult = profileSchema.safeParse({
             name,
+            avatar,
             surname,
             age: Number(age),
             phone,
@@ -81,6 +100,7 @@ const EditProfile = observer(() => {
 
         await usersStore.updateUserProfile(usersStore.currentUser?.id || "", {
             name,
+            avatar,
             surname,
             age: Number(age),
             phone,
@@ -91,150 +111,125 @@ const EditProfile = observer(() => {
     };
 
     return (
-        <ScrollView style={styles.container}>
-            <ThemedView style={styles.inputContainer}>
-                <ThemedText style={styles.label}>{i18n.t("profile.name")}</ThemedText>
-                <TextInput style={styles.input} value={name} onChangeText={setName} />
-                {errors.name && (
-                    <ThemedText style={styles.errorText}>{errors.name[0]}</ThemedText>
-                )}
-            </ThemedView>
-
-            <ThemedView style={styles.inputContainer}>
-                <ThemedText style={styles.label}>
-                    {i18n.t("profile.surname")}
-                </ThemedText>
-                <TextInput
-                    style={styles.input}
-                    value={surname}
-                    onChangeText={setSurname}
-                />
-                {errors.surname && (
-                    <ThemedText style={styles.errorText}>{errors.surname[0]}</ThemedText>
-                )}
-            </ThemedView>
-
-            <ThemedView style={styles.inputContainer}>
-                <ThemedText style={styles.label}>{i18n.t("profile.age")}</ThemedText>
-                <TextInput
-                    style={styles.input}
-                    value={age}
-                    onChangeText={setAge}
-                    keyboardType="numeric"
-                />
-                {errors.age && (
-                    <ThemedText style={styles.errorText}>{errors.age[0]}</ThemedText>
-                )}
-            </ThemedView>
-
-            <ThemedView style={styles.inputContainer}>
-                <ThemedText style={styles.label}>{i18n.t("profile.phone")}</ThemedText>
-                <TextInput
-                    style={styles.input}
-                    value={phone}
-                    onChangeText={setPhone}
-                    keyboardType="phone-pad"
-                />
-                {errors.phone && (
-                    <ThemedText style={styles.errorText}>{errors.phone[0]}</ThemedText>
-                )}
-            </ThemedView>
-
-            <ThemedView style={styles.inputContainer}>
-                <ThemedText style={styles.label}>
-                    {i18n.t("profile.interests")}
-                </ThemedText>
-                <TextInput
-                    style={styles.input}
-                    value={Array.isArray(interests) ? interests.join(", ") : interests}
-                    onChangeText={setInterests}
-                />
-                {errors.interests && (
-                    <ThemedText style={styles.errorText}>
-                        {errors.interests[0]}
-                    </ThemedText>
-                )}
-            </ThemedView>
-
-            <ThemedView style={styles.inputContainer}>
-                <ThemedText style={styles.label}>
-                    {i18n.t("profile.description")}
-                </ThemedText>
-                <TextInput
-                    style={[styles.input, styles.textArea]}
-                    value={description}
-                    onChangeText={setDescription}
-                    multiline
-                    numberOfLines={4}
-                />
-                {errors.description && (
-                    <ThemedText style={styles.errorText}>
-                        {errors.description[0]}
-                    </ThemedText>
-                )}
-            </ThemedView>
-
-            <Button
-                title={i18n.t("button.save")}
-                onPress={handleSave}
-                buttonStyle={styles.saveButton}
-                titleStyle={styles.saveButtonText}
-                icon={{
-                    name: "save-outline",
-                    type: "ionicon",
-                    color: "#fff",
-                    size: 20,
-                    style: { marginRight: 10 },
-                }}
-                loading={usersStore.isLoading}
-            />
-        </ScrollView>
+        <SafeAreaView style={{flex: 1}}>
+            <ScrollView style={styles.scrollView}>
+                <ThemedView style={styles.container}>
+                    {/* Кнопка для выбора аватара */}
+                    <Button
+                        title={i18n.t("startedProfile.changePhoto")}
+                        onPress={handleAvatarPick}
+                        buttonStyle={BaseStyles.baseButton}
+                    />
+                    {avatar ? (
+                        <Image source={{uri: avatar}} style={styles.avatar}/>
+                    ) : null}
+                    {errors.avatar && (
+                        <ThemedText style={styles.errorText}>{errors.avatar}</ThemedText>
+                    )}
+                    <ThemedInput
+                        label={i18n.t("profile.name")}
+                        placeholder={i18n.t("profile.name")}
+                        style={styles.input}
+                        value={name}
+                        onChangeText={setName}
+                        errorMessage={errors.name?.[0]}
+                    />
+                    <ThemedInput
+                        placeholder={i18n.t("profile.surname")}
+                        label={i18n.t("profile.surname")}
+                        style={styles.input}
+                        value={surname}
+                        onChangeText={setSurname}
+                        errorMessage={errors.surname?.[0]}
+                    />
+                    <ThemedInput
+                        label={i18n.t("profile.age")}
+                        placeholder={i18n.t("profile.age")}
+                        style={styles.input}
+                        value={age}
+                        onChangeText={setAge}
+                        keyboardType="numeric"
+                        errorMessage={errors.age?.[0]}
+                    />
+                    <ThemedInput
+                        label={i18n.t("profile.phone")}
+                        placeholder={i18n.t("profile.phone")}
+                        style={styles.input}
+                        value={phone}
+                        onChangeText={setPhone}
+                        keyboardType="phone-pad"
+                        errorMessage={errors.phone?.[0]}
+                    />
+                    <ThemedInput
+                        label={i18n.t("profile.interests")}
+                        placeholder={i18n.t("profile.interests")}
+                        style={styles.input}
+                        value={Array.isArray(interests) ? interests.join(", ") : interests}
+                        onChangeText={setInterests}
+                        errorMessage={errors.interests?.[0]}
+                    />
+                    <ThemedInput
+                        label={i18n.t("profile.description")}
+                        placeholder={i18n.t("profile.description")}
+                        style={[styles.input]}
+                        value={description}
+                        onChangeText={setDescription}
+                        multiline
+                        numberOfLines={4}
+                        errorMessage={errors.description?.[0]}
+                    />
+                    <Button
+                        title={i18n.t("button.save")}
+                        onPress={handleSave}
+                        buttonStyle={BaseStyles.baseButton}
+                        icon={{
+                            name: "save-outline",
+                            type: "ionicon",
+                            color: "#fff",
+                            size: 20,
+                            style: {marginRight: 10},
+                        }}
+                        loading={usersStore.isLoading}
+                    />
+                </ThemedView>
+            </ScrollView>
+        </SafeAreaView>
     );
 });
 
 const styles = StyleSheet.create({
+    scrollView: {
+        flex: 1,
+    },
+
     container: {
         flex: 1,
-        backgroundColor: Colors.light.background,
         padding: 20,
     },
-    inputContainer: {
-        marginBottom: 15,
-    },
-    label: {
-        fontSize: 16,
-        color: Colors.light.text,
-        marginBottom: 5,
-    },
+
     input: {
-        backgroundColor: Colors.light.inputBackground || "#f0f0f0",
         borderRadius: 8,
         paddingHorizontal: 15,
         paddingVertical: 10,
         fontSize: 16,
-        color: Colors.light.text,
     },
+
     textArea: {
         height: 100,
         textAlignVertical: "top",
     },
-    saveButton: {
-        flexDirection: "row",
-        backgroundColor: Colors.light.tint,
-        borderRadius: 25,
-        paddingVertical: 12,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 20,
-    },
+
     saveIcon: {
         marginRight: 10,
     },
-    saveButtonText: {
-        color: "#fff",
-        fontSize: 18,
-        fontWeight: "bold",
+
+    avatar: {
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        margin: 15,
     },
+
     errorText: {
         color: "red",
         fontSize: 14,

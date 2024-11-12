@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { AxiosError } from 'axios';
-import {getLocales} from "expo-localization";
+import { getLocales } from "expo-localization";
 import api from "@/constants/Api";
 
 // Обобщенный тип для ошибки
@@ -14,7 +14,7 @@ export function useLocalizedData<T>(url: string, isPublic: boolean = false): [T 
     const [error, setError] = useState<ErrorType>(null);
 
     useEffect(() => {
-        fetchLocalizedData();
+        void fetchLocalizedData();
     }, []);
 
     const fetchLocalizedData = async () => {

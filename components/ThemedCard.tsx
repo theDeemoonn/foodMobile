@@ -1,6 +1,6 @@
-import {StyleSheet, ViewProps} from "react-native";
-import {useThemeColor} from "@/hooks/useThemeColor";
-import {Card} from "@rneui/themed";
+import { StyleSheet, ViewProps } from "react-native";
+import { useThemeColor } from "@/hooks/useThemeColor";
+import { Card } from "@rneui/themed";
 
 export type ThemedCardProps = ViewProps & {
     lightColor?: string;

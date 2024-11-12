@@ -9,7 +9,7 @@ interface UserCredentials {
 export interface User {
   id: string;
   email: string;
-  username: string;
+  user_name: string;
   password: string;
   surname: string;
   name: string;
