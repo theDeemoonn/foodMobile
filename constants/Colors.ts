@@ -46,6 +46,7 @@ export const BaseStyles = StyleSheet.create({
         marginTop: 20,
     },
 
+
     logoutButton: {
         marginTop: 20,
         width: "100%",

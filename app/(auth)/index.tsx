@@ -1,3 +1,4 @@
+import { BaseStyles } from "@/constants/Colors";
 import { useEffect, useState } from "react";
 import { Button, Card } from "@rneui/themed";
 import { StyleSheet, View } from "react-native";
@@ -58,7 +59,7 @@ const AuthComponent = observer(() => {
                     <Card.Title>
                         <ThemedText>{i18n.t("auth.confirmEmail")}</ThemedText>
                     </Card.Title>
-                    <Card.Divider />
+                    <Card.Divider/>
                     <View>
                         <ThemedInput
                             value={authStore.confirmationCode}
@@ -82,9 +83,9 @@ const AuthComponent = observer(() => {
                             {isLogin ? i18n.t("auth.auth") : i18n.t("auth.register")}
                         </ThemedText>
                     </Card.Title>
-                    <Card.Divider />
+                    <Card.Divider/>
                     <View>
-                        <EmailValidationComponent />
+                        <EmailValidationComponent/>
                         <ThemedInput
                             textContentType="password"
                             secureTextEntry={secureTextEntry}
@@ -92,7 +93,7 @@ const AuthComponent = observer(() => {
                             onChangeText={(text) => authStore.setPassword(text)}
                             errorMessage={authStore.passwordError}
                             label={i18n.t("auth.password")}
-                            leftIcon={<ThemedIcon name="lock" size={20} />}
+                            leftIcon={<ThemedIcon name="lock" size={20}/>}
                             rightIcon={
                                 <ThemedIcon
                                     onPress={() => setSecureTextEntry(!secureTextEntry)}
@@ -110,7 +111,7 @@ const AuthComponent = observer(() => {
                                 onChangeText={(text) => authStore.setConfirmPassword(text)}
                                 errorMessage={authStore.confirmPasswordError}
                                 label={i18n.t("auth.placeholder.confirmPassword")}
-                                leftIcon={<ThemedIcon name="lock" size={20} />}
+                                leftIcon={<ThemedIcon name="lock" size={20}/>}
                                 placeholder={i18n.t("auth.placeholder.confirmPassword")}
                             />
                         )}
@@ -125,6 +126,8 @@ const AuthComponent = observer(() => {
                             }
                             loading={authStore.isLoading}
                             disabled={authStore.isLoading}
+                            // buttonStyle={BaseStyles.baseButton}
+
                         />
                         <Button
                             title={

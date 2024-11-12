@@ -13,7 +13,7 @@ import { useRouter } from "expo-router";
 import { I18n } from "i18n-js";
 import en from "locales/en/en.json";
 import ru from "locales/ru/ru.json";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     ActivityIndicator,
     Dimensions,
@@ -159,6 +159,11 @@ const CompleteProfile = () => {
             router.replace("/profile"); // Переход на следующий экран
         }
     };
+
+    useEffect(() => {
+        void usersStore.fetchMe();
+        console.log(usersStore.currentUser, "usersStore.currentUser");
+    }, []);
 
     return (
         <SafeAreaProvider>

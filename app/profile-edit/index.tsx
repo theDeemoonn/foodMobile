@@ -235,6 +235,8 @@ const styles = StyleSheet.create({
         fontSize: 14,
         marginTop: 5,
     },
+
+
 });
 
 export default EditProfile;
