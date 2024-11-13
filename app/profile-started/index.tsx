@@ -26,7 +26,7 @@ import {
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { z } from "zod";
 
-const {width} = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 // Определение схемы валидации с использованием Zod
 const ProfileSchema = z.object({
@@ -90,7 +90,6 @@ const CompleteProfile = () => {
 
     // Состояние для ошибок
     const [errors, setErrors] = useState<Record<string, string>>({});
-
 
     // Функция выбора аватара
     const handleAvatarPick = async () => {
@@ -167,7 +166,7 @@ const CompleteProfile = () => {
 
     return (
         <SafeAreaProvider>
-            <SafeAreaView style={{flex: 1}}>
+            <SafeAreaView style={{ flex: 1 }}>
                 <ScrollView style={styles.scrollView}>
                     <ThemedView style={styles.container}>
                         <ThemedText style={styles.title}>
@@ -181,7 +180,7 @@ const CompleteProfile = () => {
                             buttonStyle={BaseStyles.baseButton}
                         />
                         {avatar ? (
-                            <Image source={{uri: avatar}} style={styles.avatar}/>
+                            <Image source={{ uri: avatar }} style={styles.avatar} />
                         ) : null}
                         {errors.avatar && (
                             <ThemedText style={styles.errorText}>{errors.avatar}</ThemedText>
@@ -197,7 +196,6 @@ const CompleteProfile = () => {
                         />
 
                         <ThemedInput
-
                             style={styles.input}
                             placeholder={i18n.t("startedProfile.surname")}
                             value={surname}
@@ -314,14 +312,14 @@ const CompleteProfile = () => {
                             transparent={true}
                         >
                             <SafeAreaProvider>
-                                <ThemedView style={{flex: 1}}>
-                                    <SafeAreaView style={{flex: 1}}>
+                                <ThemedView style={{ flex: 1 }}>
+                                    <SafeAreaView style={{ flex: 1 }}>
                                         <ScrollView contentContainerStyle={styles.modalContent}>
                                             <ThemedText style={styles.modalTitle}>
                                                 {i18n.t("startedProfile.interests")}
                                             </ThemedText>
                                             <ThemedView style={styles.interestsContainer}>
-                                                {isLoadingInterests ? <ActivityIndicator/> : null}
+                                                {isLoadingInterests ? <ActivityIndicator /> : null}
                                                 {interestsError ? (
                                                     <ThemedText>{interestsError}</ThemedText>
                                                 ) : null}
@@ -353,14 +351,13 @@ const CompleteProfile = () => {
                         {/* Модальное окно для избранного */}
                         <Modal visible={isFavoritesModalVisible} animationType="slide">
                             <SafeAreaProvider>
-                                <ThemedView style={{flex: 1}}>
-
-                                    <SafeAreaView style={{flex: 1}}>
+                                <ThemedView style={{ flex: 1 }}>
+                                    <SafeAreaView style={{ flex: 1 }}>
                                         <ScrollView contentContainerStyle={styles.modalContent}>
                                             <ThemedText style={styles.modalTitle}>
                                                 {i18n.t("startedProfile.favorites")}
                                             </ThemedText>
-                                            {isLoadingFavorites ? <ActivityIndicator/> : null}
+                                            {isLoadingFavorites ? <ActivityIndicator /> : null}
                                             {favoritesError ? (
                                                 <ThemedText>{favoritesError}</ThemedText>
                                             ) : null}
@@ -379,7 +376,6 @@ const CompleteProfile = () => {
                                             ))}
                                             <Button
                                                 buttonStyle={BaseStyles.baseButton}
-
                                                 title={i18n.t("button.close")}
                                                 onPress={() => setFavoritesModalVisible(false)}
                                             />
@@ -418,13 +414,12 @@ const styles = StyleSheet.create({
     },
 
     sliderContainer: {
-        marginLeft: 20
+        marginLeft: 20,
     },
 
     label: {
         fontSize: 16,
         marginVertical: 10,
-
     },
 
     textArea: {
@@ -438,7 +433,6 @@ const styles = StyleSheet.create({
         padding: 0,
         marginVertical: 5,
     },
-
 
     saveIcon: {
         marginRight: 10,
@@ -491,8 +485,8 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginTop: 22,
-        backgroundColor: Colors.dark.background
-    }
+        backgroundColor: Colors.dark.background,
+    },
 });
 
 export default CompleteProfile;
