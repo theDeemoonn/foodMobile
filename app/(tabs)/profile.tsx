@@ -1,186 +1,267 @@
-import { StyleSheet, Platform, View } from "react-native";
+import { StyleSheet, ScrollView, TouchableOpacity } from "react-native";
+import { observer } from "mobx-react-lite";
+import { Button, Divider } from "@rneui/themed";
+import { Ionicons } from "@expo/vector-icons";
 
-import { HelloWave } from "@/components/HelloWave";
-import ParallaxScrollView from "@/components/ParallaxScrollView";
-import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { Avatar } from "@rneui/base";
-import {Link} from "expo-router";
+import { ThemedText } from "@/components/ThemedText";
+import authStore from "@/store/auth.store";
+import { BaseStyles, Colors } from "@/constants/Colors";
+import en from "@/locales/en/en.json";
+import ru from "@/locales/ru/ru.json";
+import { I18n } from "i18n-js";
+import { getLocales } from "expo-localization";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import usersStore from "@/store/users.store";
+import { useEffect } from "react";
+import { router } from "expo-router";
+import UserAvatar from "@/components/UserAvatar";
 
-function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
-      headerComponent={
-        <View style={styles.titleContainer}>
-          <Avatar
-            size={128}
-            rounded
-            source={{ uri: "https://randomuser.me/api/portraits/men/36.jpg" }}
-          />
-          <Avatar
-            size={62}
-            rounded
-            source={{ uri: "https://randomuser.me/api/portraits/men/36.jpg" }}
-          />
-        </View>
-      }
-    >
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <Link href={'/auth'}>
-        <HelloWave />
-            </Link>
-        <HelloWave />
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit{" "}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText>{" "}
-          to see changes. Press{" "}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: "cmd + d", android: "cmd + m" })}
-          </ThemedText>{" "}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this
-          starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{" "}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText>{" "}
-          to get a fresh <ThemedText type="defaultSemiBold">app</ThemedText>{" "}
-          directory. This will move the current{" "}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{" "}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-          <ThemedText type="defaultSemiBold">
-            Speciess manducare!Varnish each side of thThis mystery has only been
-            attacked by a devastated parasite.e watermelon with one cup of
-            ground beef.
-          </ThemedText>
-          .
-          <ThemedText type="defaultSemiBold">
-            Speciess manducare!Varnish each side of thThis mystery has only been
-            attacked by a devastated parasite.e watermelon with one cup of
-            ground beef.
-          </ThemedText>
-          <ThemedText type="defaultSemiBold">
-            Speciess manducare!Varnish each side of thThis mystery has only been
-            attacked by a devastated parasite.e watermelon with one cup of
-            ground beef.
-          </ThemedText>
-          <ThemedText type="defaultSemiBold">
-            Speciess manducare!Varnish each side of thThis mystery has only been
-            attacked by a devastated parasite.e watermelon with one cup of
-            ground beef.
-          </ThemedText>
-          <ThemedText type="defaultSemiBold">
-            Speciess manducare!Varnish each side of thThis mystery has only been
-            attacked by a devastated parasite.e watermelon with one cup of
-            ground beef.
-          </ThemedText>
-          <ThemedText type="defaultSemiBold">
-            Speciess manducare!Varnish each side of thThis mystery has only been
-            attacked by a devastated parasite.e watermelon with one cup of
-            ground beef.
-          </ThemedText>
-          <ThemedText type="defaultSemiBold">
-            Speciess manducare!Varnish each side of thThis mystery has only been
-            attacked by a devastated parasite.e watermelon with one cup of
-            ground beef.
-          </ThemedText>
-          <ThemedText type="defaultSemiBold">
-            Speciess manducare!Varnish each side of thThis mystery has only been
-            attacked by a devastated parasite.e watermelon with one cup of
-            ground beef.
-          </ThemedText>
-          .
-          <ThemedText type="defaultSemiBold">
-            Speciess manducare!Varnish each side of thThis mystery has only been
-            attacked by a devastated parasite.e watermelon with one cup of
-            ground beef.
-          </ThemedText>
-          .
-          <ThemedText type="defaultSemiBold">
-            Speciess manducare!Varnish each side of thThis mystery has only been
-            attacked by a devastated parasite.e watermelon with one cup of
-            ground beef.
-          </ThemedText>
-          .
-          <ThemedText type="defaultSemiBold">
-            Speciess manducare!Varnish each side of thThis mystery has only been
-            attacked by a devastated parasite.e watermelon with one cup of
-            ground beef.
-          </ThemedText>
-          .
-          <ThemedText type="defaultSemiBold">
-            Speciess manducare!Varnish each side of thThis mystery has only been
-            attacked by a devastated parasite.e watermelon with one cup of
-            ground beef.
-          </ThemedText>
-          .
-          <ThemedText type="defaultSemiBold">
-            Speciess manducare!Varnish each side of thThis mystery has only been
-            attacked by a devastated parasite.e watermelon with one cup of
-            ground beef.
-          </ThemedText>
-          .
-          <ThemedText type="defaultSemiBold">
-            Speciess manducare!Varnish each side of thThis mystery has only been
-            attacked by a devastated parasite.e watermelon with one cup of
-            ground beef.
-          </ThemedText>
-          .
-          <ThemedText type="defaultSemiBold">
-            Speciess manducare!Varnish each side of thThis mystery has only been
-            attacked by a devastated parasite.e watermelon with one cup of
-            ground beef.
-          </ThemedText>
-          .
-          <ThemedText type="defaultSemiBold">
-            Speciess manducare!Varnish each side of thThis mystery has only been
-            attacked by a devastated parasite.e watermelon with one cup of
-            ground beef.
-          </ThemedText>
-          .
-          <ThemedText type="defaultSemiBold">
-            Speciess manducare!Varnish each side of thThis mystery has only been
-            attacked by a devastated parasite.e watermelon with one cup of
-            ground beef.
-          </ThemedText>
-          .
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
-}
+const UserProfile = observer(() => {
+    useEffect(() => {
+        void usersStore.fetchMe();
+        console.log(usersStore.CurrentUser, "usersStore.currentUser");
+    }, []);
 
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: "absolute",
-  },
+    const handleLogout = () => {
+        void authStore.logout();
+    };
+
+    const handleEditProfile = () => {
+        router.push("/profile-edit");
+        // router.push("/profile-started");
+    };
+    const handleCreateRestaurant = () => {
+        router.push("/restaurant-create");
+    };
+
+
+    const translations = {
+        en: en,
+        ru: ru,
+    };
+    const i18n = new I18n(translations);
+    i18n.locale = getLocales()[0].languageCode ?? "en";
+    i18n.enableFallback = true;
+
+    const renderInfoItem = (
+        icon: string,
+        title: string,
+        value: string | number | undefined,
+    ) => (
+        <ThemedView style={styles.infoItem}>
+            <Ionicons
+                name={icon as any}
+                size={24}
+                color={Colors.light.tint}
+                style={styles.infoIcon}
+            />
+            <ThemedView style={styles.infoTextContainer}>
+                <ThemedText style={styles.infoTitle}>{title}</ThemedText>
+                <ThemedText style={styles.infoValue}>
+                    {value || i18n.t("profile.noData")}
+                </ThemedText>
+            </ThemedView>
+        </ThemedView>
+    );
+    return (
+        <SafeAreaProvider>
+            <SafeAreaView style={{flex: 1}}>
+                <ScrollView style={styles.scrollView}>
+                    <ThemedView style={styles.container}>
+                        <ThemedView style={styles.header}>
+                            <UserAvatar
+                                rounded
+                                size="large"
+                                containerStyle={styles.avatar}
+                                imageUrl={usersStore.CurrentUser?.avatar}
+                                initials={
+                                    usersStore.CurrentUser?.name?.charAt(0).toUpperCase() +
+                                    " " +
+                                    usersStore.CurrentUser?.surname?.charAt(0).toUpperCase()
+                                }
+                            />
+
+                            <ThemedView style={styles.headerText}>
+                                <ThemedText style={styles.name}>
+                                    {usersStore.CurrentUser?.name || "User Name"}{" "}
+                                    {usersStore.CurrentUser?.surname || "User Surname"}
+                                </ThemedText>
+                                <ThemedText style={styles.username}>
+                                    @
+                                    {usersStore.CurrentUser?.user_name
+                                        ? usersStore.CurrentUser?.user_name
+                                        : usersStore.CurrentUser?.email?.split("@")[0]}
+                                </ThemedText>
+                            </ThemedView>
+                        </ThemedView>
+
+                        <TouchableOpacity
+                            onPress={handleEditProfile}
+                            style={styles.editButton}
+                        >
+                            <ThemedText style={styles.editButtonText}>
+                                {i18n.t("profile.button.editProfile")}
+                            </ThemedText>
+                        </TouchableOpacity>
+                        {usersStore.CurrentUser && (
+                            <TouchableOpacity
+                                onPress={handleCreateRestaurant}
+                                style={styles.createButton}
+                            >
+                                <ThemedText style={styles.createButtonText}>
+                                    {i18n.t("profile.button.createRestaurant")}
+                                </ThemedText>
+                            </TouchableOpacity>
+                        )}
+                        <ThemedView style={styles.infoContainer}>
+                            {renderInfoItem(
+                                "mail-outline",
+                                i18n.t("profile.email"),
+                                usersStore.CurrentUser?.email,
+                            )}
+                            <Divider style={styles.divider}/>
+                            {renderInfoItem(
+                                "calendar-outline",
+                                i18n.t("profile.age"),
+                                usersStore.CurrentUser?.age,
+                            )}
+                            <Divider style={styles.divider}/>
+                            {renderInfoItem(
+                                "call-outline",
+                                i18n.t("profile.phone"),
+                                usersStore.CurrentUser?.phone,
+                            )}
+                            <Divider style={styles.divider}/>
+                            {renderInfoItem(
+                                "people-outline",
+                                i18n.t("profile.interests"),
+                                usersStore.CurrentUser?.interests?.join(", "),
+                            )}
+                            <Divider style={styles.divider}/>
+                            {usersStore.CurrentUser?.dontInterest && <> renderInfoItem(
+                                "people-outline",
+                                i18n.t("profile.notInterests"),
+                                usersStore.currentUser?.dontInterest?.join(", "))
+                                <Divider style={styles.divider}/>
+                            </>
+                            }
+
+                            {renderInfoItem(
+                                "receipt-outline",
+                                i18n.t("profile.description"),
+                                usersStore.CurrentUser?.description,
+                            )}
+                            <Divider style={styles.divider}/>
+                            {renderInfoItem(
+                                "thumbs-up-outline",
+                                i18n.t("profile.favorites"),
+                                usersStore.CurrentUser?.favorites?.length,
+                            )}
+                        </ThemedView>
+
+                        <Button
+                            title={i18n.t("auth.button.logout")}
+                            onPress={handleLogout}
+                            buttonStyle={BaseStyles.logoutButton}
+                            icon={
+                                <Ionicons
+                                    name="log-out-outline"
+                                    size={20}
+                                    color="white"
+                                    style={styles.logoutIcon}
+                                />
+                            }
+                        />
+                    </ThemedView>
+                </ScrollView>
+            </SafeAreaView>
+        </SafeAreaProvider>
+    );
 });
 
-export default HomeScreen;
+const styles = StyleSheet.create({
+    scrollView: {
+        flex: 1,
+    },
+    container: {
+        flex: 1,
+        padding: 20,
+    },
+    header: {
+        flexDirection: "row",
+        alignItems: "center",
+        marginBottom: 20,
+    },
+    avatar: {
+        marginRight: 20,
+    },
+    headerText: {
+        flex: 1,
+    },
+    name: {
+        fontSize: 24,
+        fontWeight: "bold",
+    },
+    username: {
+        fontSize: 16,
+        color: "#888",
+    },
+    editButton: {
+        backgroundColor: Colors.light.tint,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 20,
+        alignSelf: "flex-start",
+        marginBottom: 20,
+    },
+    editButtonText: {
+        color: "white",
+        fontWeight: "bold",
+    },
+    createButton: {
+        backgroundColor: '#FFA500',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 20,
+        alignSelf: "flex-start",
+        marginBottom: 20,
+    },
+    createButtonText: {
+        color: "white",
+        fontWeight: "bold",
+    },
+    infoContainer: {
+        borderRadius: 10,
+        padding: 15,
+        marginBottom: 20,
+    },
+    infoItem: {
+        flexDirection: "row",
+        alignItems: "center",
+        marginVertical: 10,
+    },
+    infoIcon: {
+        marginRight: 15,
+    },
+    infoTextContainer: {
+        flex: 1,
+    },
+    infoTitle: {
+        fontSize: 14,
+        color: "#888",
+    },
+    infoValue: {
+        fontSize: 16,
+        fontWeight: "bold",
+    },
+    divider: {
+        marginVertical: 10,
+    },
+
+    logoutIcon: {
+        marginRight: 10,
+    },
+});
+
+export default UserProfile;

@@ -2,53 +2,163 @@
   "auth": {
     "welcome": "Welcome!",
     "auth": "Authorization",
+    "register": "Register",
+    "alreadyHaveAccount": "Already have an account?",
     "email": "Email",
+    "username": "Username",
     "password": "Password",
+    "confirmEmail": "Confirm email",
+    "enterConfirmationCode": "Enter confirmation code",
     "placeholder": {
+      "confirmationCode": "Enter confirmation code",
       "email": "Enter your email",
-      "password": "Enter your password"},
+      "username": "Enter your username",
+      "password": "Enter your password"
+    },
     "button": {
-        "login": "Login",
-        "register": "Register"
+      "confirmEmail": "Confirm email",
+      "login": "Login",
+      "register": "Register",
+      "logout": "Logout"
+    },
+    "noAccount": "No account?"
+  },
+  "tabs": {
+    "home": "Home",
+    "about": "About",
+    "people": "People",
+    "contacts": "Contacts",
+    "chat": "Events",
+    "profile": "Profile"
+  },
+  "error": {
+    "email": "Enter a valid email",
+    "password": "Password must be at least 6 characters long"
+  },
+  "profile": {
+    "name": "Name",
+    "surname": "Surname",
+    "age": "Age",
+    "phone": "Phone",
+    "email": "Email",
+    "address": "Address",
+    "city": "City",
+    "country": "Country",
+    "interests": "Interests",
+    "dontInterest": "Don't interest",
+    "description": "About me",
+    "favorites": "Favorites",
+    "editProfile": "Edit profile",
+    "noData": "No data",
+    "button": {
+      "save": "Save",
+      "cancel": "Cancel",
+      "editProfile": "Edit profile",
+      "createRestaurant": "Create restaurant"
     }
   },
-    "tabs": {
-        "home": "Home",
-        "about": "About",
-        "people": "People",
-        "contacts": "Contacts",
-        "chat": "Chat",
-        "profile": "Profile"
-    },
-    "error": {
-        "email": "Enter a valid email",
-        "password": "Password must be at least 6 characters long"
-    },
-    "profile": {
-        "name": "Name",
-        "surname": "Surname",
-        "age": "Age",
-        "phone": "Phone",
-        "email": "Email",
-        "address": "Address",
-        "city": "City",
-        "country": "Country",
-        "button": {
-            "save": "Save",
-            "cancel": "Cancel"
-        }
-    },
+  "restaurant": {
+    "name": "Name",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "description": "Description",
+    "category": "Category",
+    "averagePrice": "Average price",
+    "rating": "Rating",
+    "reviews": "Reviews",
+    "openTime": "Open time",
+    "closeTime": "Close time",
+    "menu": "Menu",
+    "orders": "Orders",
+    "OGRN": "OGRN",
+    "INN": "INN",
     "button": {
-        "submit": "Submit",
-        "cancel": "Cancel",
-        "delete": "Delete",
-        "edit": "Edit",
-        "add": "Add",
-        "save": "Save",
-        "next": "Next"
+      "edit": "Edit",
+      "delete": "Delete",
+      "add": "Add",
+      "create": "Create",
+      "cancel": "Cancel",
+      "save": "Save",
+      "close": "Close"
     },
-    "categorySelected": {
-        "chooseCategory": "Choose interesting categories",
-        "minimum": "Minimum 3 categories, and we will create your own selection"
-    }
+    "noData": "No data",
+    "createRestaurant": "Create restaurant",
+    "editRestaurant": "Edit restaurant",
+    "deleteRestaurant": "Delete restaurant"
+  },
+  "startedProfile": {
+    "title": "Начните заполнение профиля",
+    "changePhoto": "Choose photo",
+    "username": "Username",
+    "surname": "Surname",
+    "name": "Name",
+    "age": "Age",
+    "phone": "Phone",
+    "gender": {
+      "gender": "Gender",
+      "male": "Male",
+      "female": "Female"
+    },
+    "interests": "Interests",
+    "favorites": "Favorites",
+    "description": "About me"
+  },
+  "validation": {
+    "nameRequired": "Name is required",
+    "surnameRequired": "Surname is required",
+    "ageInteger": "Age must be an integer",
+    "agePositive": "Age must be a positive number",
+    "ageMax": "Age must be less than or equal to 120",
+    "phoneInvalid": "Phone number is invalid",
+    "emailInvalid": "Email is invalid",
+    "passwordInvalid": "Password must be at least 6 characters long",
+    "confirmPassword": "Passwords do not match",
+    "descriptionRequired": "Description is required",
+    "INNRequired": "INN is required",
+    "OGRNRequired": "OGRN is required",
+    "restaurantNameRequired": "Restaurant name is required",
+    "restaurantAddressRequired": "Restaurant address is required",
+    "restaurantPhoneRequired": "Restaurant phone is required",
+    "restaurantDescriptionRequired": "Restaurant description is required",
+    "restaurantCategoriesRequired": "Restaurant category is required",
+    "restaurantAveragePriceRequired": "Restaurant average price is required",
+    "restaurantOpenTimeRequired": "Restaurant open time is required",
+    "restaurantCloseTimeRequired": "Restaurant close time is required",
+    "restaurantMenuRequired": "Restaurant menu is required",
+    "restaurantOrdersRequired": "Restaurant orders is required"
+  },
+  "button": {
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "save": "Save",
+    "next": "Next",
+    "back": "Back",
+    "close": "Close",
+    "loadAvatar": "Load avatar"
+  },
+  "categorySelected": {
+    "chooseCategory": "Choose interesting categories",
+    "minimum": "Minimum 3 categories, and we will create your own selection"
+  },
+  "userFilters": {
+    "filters": "Filters",
+    "ageRange": "Age range",
+    "gender": {
+      "gender": "Gender",
+      "all": "All",
+      "male": "Male",
+      "female": "Female"
+    },
+    "interests": "Interests",
+    "applyFilters": "Apply filters",
+    "hideFilters": "Hide filters",
+    "showFilters": "Show filters"
+  },
+  "search": {
+    "placeholder": "Search..."
+  }
 }

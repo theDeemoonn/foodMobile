@@ -6,31 +6,34 @@ interface UserCredentials {
 }
 
 // User интерфейс, представляющий пользователя
-interface User {
-    id?: string;
+export interface User {
+    id: string;
     email: string;
+    user_name: string;
     password: string;
     surname: string;
     name: string;
     age: number;
     phone: string;
-    interests?: string;
-    description?: string;
-    avatar?: string;
-    banned?: boolean;
-    banReason?: string;
-    roles?: string;
+    gender: string;
+    interests: string[];
+    dontInterest: string[];
+    description: string;
+    avatar: string;
+    banned: boolean;
+    banReason: string;
+    roles: string;
     refreshToken?: string;
-    favorites?: string[];
+    favorites: string[];
     paymentMethods: PaymentMethod[];
     orders: Order[];
 }
 
 // PaymentMethod интерфейс, представляющий информацию о способе оплаты пользователя
-interface PaymentMethod {
+export interface PaymentMethod {
     id?: string;
     userId: string;
-    type: 'cash' | 'card' | 'online';
+    type: "cash" | "card" | "online";
     provider: string;
     accountNo: string;
     expiryMonth: number;
@@ -50,7 +53,7 @@ interface Order {
     restaurantId: string;
     items: OrderItem[];
     paymentMethod: PaymentMethod;
-    status: 'pending' | 'confirmed' | 'preparing' | 'delivered';
+    status: "pending" | "confirmed" | "preparing" | "delivered";
     createdAt: Date;
     updatedAt: Date;
 }

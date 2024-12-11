@@ -1,44 +1,134 @@
 {
   "auth": {
- "welcome": "Приветствуем вас!",
-  "auth": "Авторизация",
+    "welcome": "Приветствуем вас!",
+    "register": "Регистрация",
+    "auth": "Авторизация",
+    "alreadyHaveAccount": "У вас уже есть аккаунт?",
     "email": "Электронная почта",
+    "username": "Имя пользователя",
     "password": "Пароль",
+    "confirmEmail": "Подтвердите свою электронную почту",
+    "enterConfirmationCode": "Введите код подтверждения",
     "placeholder": {
-    "email": "Введите электронную почту",
-      "password": "Введите  пароль"
+      "confirmationCode": "Введите код подтверждения",
+      "email": "Введите электронную почту",
+      "username": "Введите имя пользователя",
+      "password": "Введите  пароль",
+      "confirmPassword": "Подтвердите пароль"
     },
     "button": {
-    "login": "Войти",
-      "register": "Зарегистрироваться"
-    }
+      "confirmEmail": "Подтвердить почту",
+      "login": "Войти",
+      "register": "Зарегистрироваться",
+      "logout": "Выйти"
+    },
+    "noAccount": "Нет аккаунта?"
   },
   "tabs": {
     "home": "Главная",
     "about": "О нас",
     "people": "Люди",
     "contacts": "Контакты",
-    "chat": "Чат",
+    "chat": "События",
     "profile": "Профиль"
   },
   "error": {
     "email": "Введите корректный email",
     "password": "Пароль должен содержать не менее 6 символов"
   },
-    "profile": {
-        "name": "Имя",
-        "surname": "Фамилия",
-        "age": "Возраст",
-        "phone": "Телефон",
-        "email": "Электронная почта",
-        "address": "Адрес",
-        "city": "Город",
-        "country": "Страна",
-        "button": {
-        "save": "Сохранить",
-        "cancel": "Отмена"
-        }
+  "profile": {
+    "name": "Имя",
+    "surname": "Фамилия",
+    "age": "Возраст",
+    "phone": "Телефон",
+    "email": "Электронная почта",
+    "address": "Адрес",
+    "city": "Город",
+    "country": "Страна",
+    "interests": "Интересы",
+    "dontInterest": "Не интересуюсь",
+    "description": "О себе",
+    "favorites": "Любимые заведения",
+    "editProfile": "Редактировать профиль",
+    "noData": "Данные отсутствуют",
+    "button": {
+      "save": "Сохранить",
+      "cancel": "Отмена",
+      "editProfile": "Редактировать профиль",
+      "createRestaurant": "Создать заведение"
+    }
+  },
+  "restaurant": {
+    "name": "Название",
+    "address": "Адрес",
+    "phone": "Телефон",
+    "email": "Электронная почта",
+    "description": "Описание",
+    "city": "Город",
+    "country": "Страна",
+    "averagePrice": "Средняя цена",
+    "openTime": "Время открытия",
+    "closeTime": "Время закрытия",
+    "categories": "Категории",
+    "rating": "Рейтинг",
+    "reviews": "Отзывы",
+    "menu": "Меню",
+    "orders": "Заказы",
+    "OGRN": "ОГРН",
+    "INN": "ИНН",
+    "button": {
+      "edit": "Редактировать",
+      "delete": "Удалить",
+      "add": "Добавить",
+      "create": "Создать",
+      "cancel": "Отмена",
+      "save": "Сохранить",
+      "close": "Закрыть"
     },
+    "noData": "Данные отсутствуют",
+    "createRestaurant": "Создать заведение",
+    "editRestaurant": "Редактировать заведение",
+    "deleteRestaurant": "Удалить заведение"
+  },
+  "startedProfile": {
+    "title": "Начните заполнение профиля",
+    "changePhoto": "Выберите фото",
+    "username": "Ник на сайте",
+    "surname": "Фамилия",
+    "name": "Имя",
+    "age": "Возраст",
+    "phone": "Телефон",
+    "gender": {
+      "gender": "Пол",
+      "male": "Мужчина",
+      "female": "Женщина"
+    },
+    "interests": "Интересы",
+    "favorites": "Любимые заведения",
+    "description": "О себе"
+  },
+  "validation": {
+    "nameRequired": "Введите имя",
+    "surnameRequired": "Введите фамилию",
+    "ageInteger": "Возраст должен быть целым числом",
+    "agePositive": "Возраст должен быть положительным",
+    "ageMax": "Возраст не должен превышать 120 лет",
+    "phoneInvalid": "Некорректный телефон",
+    "emailInvalid": "Некорректный email",
+    "passwordInvalid": "Пароль должен содержать не менее 6 символов",
+    "confirmPassword": "Пароли не совпадают",
+    "descriptionRequired": "Описание обязательно",
+    "OGRNRequired": "ОГРН обязателен",
+    "INNRequired": "ИНН обязателен",
+    "restaurantNameRequired": "Название заведения обязательно",
+    "restaurantAddressRequired": "Адрес заведения обязателен",
+    "restaurantPhoneRequired": "Телефон заведения обязателен",
+    "restaurantDescriptionRequired": "Описание заведения обязательно",
+    "restaurantAveragePriceRequired": "Средняя цена заведения обязательна",
+    "restaurantOpenTimeRequired": "Время открытия заведения обязательно",
+    "restaurantCloseTimeRequired": "Время закрытия заведения обязательно",
+    "restaurantCategoriesRequired": "Категории заведения обязательны"
+  },
   "button": {
     "submit": "Отправить",
     "cancel": "Отмена",
@@ -46,11 +136,30 @@
     "edit": "Редактировать",
     "add": "Добавить",
     "save": "Сохранить",
-    "next": "Далее"
+    "next": "Далее",
+    "back": "Назад",
+    "close": "Закрыть",
+    "loadAvatar": "Загрузить фото"
   },
   "categorySelected": {
     "chooseCategory": "Выбери интересные категории",
     "minimum": "Минимум 3 категории, а мы сформируем твою собственную подборку"
-
+  },
+  "userFilters": {
+    "filters": "Фильтры",
+    "ageRange": "Возрастное диапазон",
+    "gender": {
+      "gender": "Пол",
+      "all": "Все",
+      "male": "Мужчина",
+      "female": "Женщина"
+    },
+    "interests": "Интересы",
+    "applyFilters": "Применить фильтры",
+    "hideFilters": "Скрыть фильтры",
+    "showFilters": "Показать фильтры"
+  },
+  "search": {
+    "placeholder": "Поиск..."
   }
 }
