@@ -22,7 +22,7 @@ interface FilterOptions {
 
 //
 const PeopleScreen: React.FC = () => {
-    const mockUsers: User[] = usersStore.getUsers();
+    const mockUsers: User[] = usersStore.Users;
 
     const [showFilters, setShowFilters] = useState(false);
     const [filteredUsers, setFilteredUsers] = useState<User[]>(mockUsers);
@@ -65,7 +65,7 @@ const PeopleScreen: React.FC = () => {
 
     useEffect(() => {
         void usersStore.fetchUsers().then(() => {
-            setFilteredUsers(usersStore.getUsers());
+            setFilteredUsers(usersStore.Users);
         });
     }, []);
 

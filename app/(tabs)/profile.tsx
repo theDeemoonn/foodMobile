@@ -20,7 +20,7 @@ import UserAvatar from "@/components/UserAvatar";
 const UserProfile = observer(() => {
     useEffect(() => {
         void usersStore.fetchMe();
-        console.log(usersStore.currentUser, "usersStore.currentUser");
+        console.log(usersStore.CurrentUser, "usersStore.currentUser");
     }, []);
 
     const handleLogout = () => {
@@ -31,6 +31,10 @@ const UserProfile = observer(() => {
         router.push("/profile-edit");
         // router.push("/profile-started");
     };
+    const handleCreateRestaurant = () => {
+        router.push("/restaurant-create");
+    };
+
 
     const translations = {
         en: en,
@@ -70,24 +74,24 @@ const UserProfile = observer(() => {
                                 rounded
                                 size="large"
                                 containerStyle={styles.avatar}
-                                imageUrl={usersStore.currentUser?.avatar}
+                                imageUrl={usersStore.CurrentUser?.avatar}
                                 initials={
-                                    usersStore.currentUser?.name?.charAt(0).toUpperCase() +
+                                    usersStore.CurrentUser?.name?.charAt(0).toUpperCase() +
                                     " " +
-                                    usersStore.currentUser?.surname?.charAt(0).toUpperCase()
+                                    usersStore.CurrentUser?.surname?.charAt(0).toUpperCase()
                                 }
                             />
 
                             <ThemedView style={styles.headerText}>
                                 <ThemedText style={styles.name}>
-                                    {usersStore.currentUser?.name || "User Name"}{" "}
-                                    {usersStore.currentUser?.surname || "User Surname"}
+                                    {usersStore.CurrentUser?.name || "User Name"}{" "}
+                                    {usersStore.CurrentUser?.surname || "User Surname"}
                                 </ThemedText>
                                 <ThemedText style={styles.username}>
                                     @
-                                    {usersStore.currentUser?.user_name
-                                        ? usersStore.currentUser?.user_name
-                                        : usersStore.currentUser?.email?.split("@")[0]}
+                                    {usersStore.CurrentUser?.user_name
+                                        ? usersStore.CurrentUser?.user_name
+                                        : usersStore.CurrentUser?.email?.split("@")[0]}
                                 </ThemedText>
                             </ThemedView>
                         </ThemedView>
@@ -100,33 +104,42 @@ const UserProfile = observer(() => {
                                 {i18n.t("profile.button.editProfile")}
                             </ThemedText>
                         </TouchableOpacity>
-
+                        {usersStore.CurrentUser && (
+                            <TouchableOpacity
+                                onPress={handleCreateRestaurant}
+                                style={styles.createButton}
+                            >
+                                <ThemedText style={styles.createButtonText}>
+                                    {i18n.t("profile.button.createRestaurant")}
+                                </ThemedText>
+                            </TouchableOpacity>
+                        )}
                         <ThemedView style={styles.infoContainer}>
                             {renderInfoItem(
                                 "mail-outline",
                                 i18n.t("profile.email"),
-                                usersStore.currentUser?.email,
+                                usersStore.CurrentUser?.email,
                             )}
                             <Divider style={styles.divider}/>
                             {renderInfoItem(
                                 "calendar-outline",
                                 i18n.t("profile.age"),
-                                usersStore.currentUser?.age,
+                                usersStore.CurrentUser?.age,
                             )}
                             <Divider style={styles.divider}/>
                             {renderInfoItem(
                                 "call-outline",
                                 i18n.t("profile.phone"),
-                                usersStore.currentUser?.phone,
+                                usersStore.CurrentUser?.phone,
                             )}
                             <Divider style={styles.divider}/>
                             {renderInfoItem(
                                 "people-outline",
                                 i18n.t("profile.interests"),
-                                usersStore.currentUser?.interests?.join(", "),
+                                usersStore.CurrentUser?.interests?.join(", "),
                             )}
                             <Divider style={styles.divider}/>
-                            {usersStore.currentUser?.dontInterest && <> renderInfoItem(
+                            {usersStore.CurrentUser?.dontInterest && <> renderInfoItem(
                                 "people-outline",
                                 i18n.t("profile.notInterests"),
                                 usersStore.currentUser?.dontInterest?.join(", "))
@@ -137,13 +150,13 @@ const UserProfile = observer(() => {
                             {renderInfoItem(
                                 "receipt-outline",
                                 i18n.t("profile.description"),
-                                usersStore.currentUser?.description,
+                                usersStore.CurrentUser?.description,
                             )}
                             <Divider style={styles.divider}/>
                             {renderInfoItem(
                                 "thumbs-up-outline",
                                 i18n.t("profile.favorites"),
-                                usersStore.currentUser?.favorites?.length,
+                                usersStore.CurrentUser?.favorites?.length,
                             )}
                         </ThemedView>
 
@@ -203,6 +216,18 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     editButtonText: {
+        color: "white",
+        fontWeight: "bold",
+    },
+    createButton: {
+        backgroundColor: '#FFA500',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 20,
+        alignSelf: "flex-start",
+        marginBottom: 20,
+    },
+    createButtonText: {
         color: "white",
         fontWeight: "bold",
     },

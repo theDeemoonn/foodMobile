@@ -19,19 +19,19 @@ import { ThemedView } from "@/components/ThemedView";
 const EditProfile = observer(() => {
     const router = useRouter();
 
-    const [name, setName] = useState(usersStore.currentUser?.name || "");
-    const [surname, setSurname] = useState(usersStore.currentUser?.surname || "");
-    const [age, setAge] = useState(usersStore.currentUser?.age?.toString() || "");
-    const [phone, setPhone] = useState(usersStore.currentUser?.phone || "");
+    const [name, setName] = useState(usersStore.CurrentUser?.name || "");
+    const [surname, setSurname] = useState(usersStore.CurrentUser?.surname || "");
+    const [age, setAge] = useState(usersStore.CurrentUser?.age?.toString() || "");
+    const [phone, setPhone] = useState(usersStore.CurrentUser?.phone || "");
     const [interests, setInterests] = useState(
-        usersStore.currentUser?.interests || "",
+        usersStore.CurrentUser?.interests || "",
     );
     const [notInterests, setNotInterests] = useState(
-        usersStore.currentUser?.dontInterest || "",
+        usersStore.CurrentUser?.dontInterest || "",
     )
     const [avatar, setAvatar] = useState(""); // Используем для хранения URI аватара
     const [description, setDescription] = useState(
-        usersStore.currentUser?.description || "",
+        usersStore.CurrentUser?.description || "",
     );
     const [errors, setErrors] = useState<Partial<Record<keyof User, string[]>>>(
         {},
@@ -101,7 +101,7 @@ const EditProfile = observer(() => {
 
         setErrors({});
 
-        await usersStore.updateUserProfile(usersStore.currentUser?.id || "", {
+        await usersStore.updateUserProfile(usersStore.CurrentUser?.id || "", {
             name,
             avatar,
             surname,
@@ -200,7 +200,7 @@ const EditProfile = observer(() => {
                             size: 20,
                             style: {marginRight: 10},
                         }}
-                        loading={usersStore.isLoading}
+                        loading={usersStore.IsLoading}
                     />
                 </ThemedView>
             </ScrollView>

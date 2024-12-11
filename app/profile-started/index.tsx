@@ -26,7 +26,7 @@ import {
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { z } from "zod";
 
-const { width } = Dimensions.get("window");
+const {width} = Dimensions.get("window");
 
 // Определение схемы валидации с использованием Zod
 const ProfileSchema = z.object({
@@ -152,7 +152,7 @@ const CompleteProfile = () => {
             // Если валидация прошла успешно, сохраняем профиль
             console.log("Profile saved:", validationResult.data);
             void usersStore.updateUserProfile(
-                `${usersStore.currentUser?.id}`,
+                `${usersStore.CurrentUser?.id}`,
                 validationResult.data,
             );
             router.replace("/profile"); // Переход на следующий экран
@@ -161,12 +161,12 @@ const CompleteProfile = () => {
 
     useEffect(() => {
         void usersStore.fetchMe();
-        console.log(usersStore.currentUser, "usersStore.currentUser");
+        console.log(usersStore.CurrentUser, "usersStore.currentUser");
     }, []);
 
     return (
         <SafeAreaProvider>
-            <SafeAreaView style={{ flex: 1 }}>
+            <SafeAreaView style={{flex: 1}}>
                 <ScrollView style={styles.scrollView}>
                     <ThemedView style={styles.container}>
                         <ThemedText style={styles.title}>
@@ -180,7 +180,7 @@ const CompleteProfile = () => {
                             buttonStyle={BaseStyles.baseButton}
                         />
                         {avatar ? (
-                            <Image source={{ uri: avatar }} style={styles.avatar} />
+                            <Image source={{uri: avatar}} style={styles.avatar}/>
                         ) : null}
                         {errors.avatar && (
                             <ThemedText style={styles.errorText}>{errors.avatar}</ThemedText>
@@ -312,14 +312,14 @@ const CompleteProfile = () => {
                             transparent={true}
                         >
                             <SafeAreaProvider>
-                                <ThemedView style={{ flex: 1 }}>
-                                    <SafeAreaView style={{ flex: 1 }}>
+                                <ThemedView style={{flex: 1}}>
+                                    <SafeAreaView style={{flex: 1}}>
                                         <ScrollView contentContainerStyle={styles.modalContent}>
                                             <ThemedText style={styles.modalTitle}>
                                                 {i18n.t("startedProfile.interests")}
                                             </ThemedText>
                                             <ThemedView style={styles.interestsContainer}>
-                                                {isLoadingInterests ? <ActivityIndicator /> : null}
+                                                {isLoadingInterests ? <ActivityIndicator/> : null}
                                                 {interestsError ? (
                                                     <ThemedText>{interestsError}</ThemedText>
                                                 ) : null}
@@ -351,13 +351,13 @@ const CompleteProfile = () => {
                         {/* Модальное окно для избранного */}
                         <Modal visible={isFavoritesModalVisible} animationType="slide">
                             <SafeAreaProvider>
-                                <ThemedView style={{ flex: 1 }}>
-                                    <SafeAreaView style={{ flex: 1 }}>
+                                <ThemedView style={{flex: 1}}>
+                                    <SafeAreaView style={{flex: 1}}>
                                         <ScrollView contentContainerStyle={styles.modalContent}>
                                             <ThemedText style={styles.modalTitle}>
                                                 {i18n.t("startedProfile.favorites")}
                                             </ThemedText>
-                                            {isLoadingFavorites ? <ActivityIndicator /> : null}
+                                            {isLoadingFavorites ? <ActivityIndicator/> : null}
                                             {favoritesError ? (
                                                 <ThemedText>{favoritesError}</ThemedText>
                                             ) : null}

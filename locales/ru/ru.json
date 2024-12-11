@@ -54,8 +54,41 @@
     "button": {
       "save": "Сохранить",
       "cancel": "Отмена",
-      "editProfile": "Редактировать профиль"
+      "editProfile": "Редактировать профиль",
+      "createRestaurant": "Создать заведение"
     }
+  },
+  "restaurant": {
+    "name": "Название",
+    "address": "Адрес",
+    "phone": "Телефон",
+    "email": "Электронная почта",
+    "description": "Описание",
+    "city": "Город",
+    "country": "Страна",
+    "averagePrice": "Средняя цена",
+    "openTime": "Время открытия",
+    "closeTime": "Время закрытия",
+    "categories": "Категории",
+    "rating": "Рейтинг",
+    "reviews": "Отзывы",
+    "menu": "Меню",
+    "orders": "Заказы",
+    "OGRN": "ОГРН",
+    "INN": "ИНН",
+    "button": {
+      "edit": "Редактировать",
+      "delete": "Удалить",
+      "add": "Добавить",
+      "create": "Создать",
+      "cancel": "Отмена",
+      "save": "Сохранить",
+      "close": "Закрыть"
+    },
+    "noData": "Данные отсутствуют",
+    "createRestaurant": "Создать заведение",
+    "editRestaurant": "Редактировать заведение",
+    "deleteRestaurant": "Удалить заведение"
   },
   "startedProfile": {
     "title": "Начните заполнение профиля",
@@ -83,7 +116,18 @@
     "phoneInvalid": "Некорректный телефон",
     "emailInvalid": "Некорректный email",
     "passwordInvalid": "Пароль должен содержать не менее 6 символов",
-    "confirmPassword": "Пароли не совпадают"
+    "confirmPassword": "Пароли не совпадают",
+    "descriptionRequired": "Описание обязательно",
+    "OGRNRequired": "ОГРН обязателен",
+    "INNRequired": "ИНН обязателен",
+    "restaurantNameRequired": "Название заведения обязательно",
+    "restaurantAddressRequired": "Адрес заведения обязателен",
+    "restaurantPhoneRequired": "Телефон заведения обязателен",
+    "restaurantDescriptionRequired": "Описание заведения обязательно",
+    "restaurantAveragePriceRequired": "Средняя цена заведения обязательна",
+    "restaurantOpenTimeRequired": "Время открытия заведения обязательно",
+    "restaurantCloseTimeRequired": "Время закрытия заведения обязательно",
+    "restaurantCategoriesRequired": "Категории заведения обязательны"
   },
   "button": {
     "submit": "Отправить",
@@ -94,7 +138,8 @@
     "save": "Сохранить",
     "next": "Далее",
     "back": "Назад",
-    "close": "Закрыть"
+    "close": "Закрыть",
+    "loadAvatar": "Загрузить фото"
   },
   "categorySelected": {
     "chooseCategory": "Выбери интересные категории",

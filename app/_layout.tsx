@@ -90,6 +90,14 @@ const RootLayout = observer(() => {
                         title: i18n.t("profile.startedProfile"),
                     }}
                 />
+                <Stack.Screen
+                    name="restaurant-create"
+                    options={{
+                        headerBackTitleVisible: true,
+                        title: i18n.t("restaurant.createRestaurant"),
+                        headerBackTitle: i18n.t("button.back"),
+                    }}
+                />
             </Stack>
         </ThemeProvider>
     );

@@ -25,7 +25,7 @@ export interface Restaurant {
     orders: Order[];
     reviews: Review[];
     rating: number;
-    ownerIds: string[];
+    owner_ids: string[];
 }
 
 export interface MenuItem {

@@ -53,8 +53,39 @@
     "button": {
       "save": "Save",
       "cancel": "Cancel",
-      "editProfile": "Edit profile"
+      "editProfile": "Edit profile",
+      "createRestaurant": "Create restaurant"
     }
+  },
+  "restaurant": {
+    "name": "Name",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "description": "Description",
+    "category": "Category",
+    "averagePrice": "Average price",
+    "rating": "Rating",
+    "reviews": "Reviews",
+    "openTime": "Open time",
+    "closeTime": "Close time",
+    "menu": "Menu",
+    "orders": "Orders",
+    "OGRN": "OGRN",
+    "INN": "INN",
+    "button": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "add": "Add",
+      "create": "Create",
+      "cancel": "Cancel",
+      "save": "Save",
+      "close": "Close"
+    },
+    "noData": "No data",
+    "createRestaurant": "Create restaurant",
+    "editRestaurant": "Edit restaurant",
+    "deleteRestaurant": "Delete restaurant"
   },
   "startedProfile": {
     "title": "Начните заполнение профиля",
@@ -82,7 +113,20 @@
     "phoneInvalid": "Phone number is invalid",
     "emailInvalid": "Email is invalid",
     "passwordInvalid": "Password must be at least 6 characters long",
-    "confirmPassword": "Passwords do not match"
+    "confirmPassword": "Passwords do not match",
+    "descriptionRequired": "Description is required",
+    "INNRequired": "INN is required",
+    "OGRNRequired": "OGRN is required",
+    "restaurantNameRequired": "Restaurant name is required",
+    "restaurantAddressRequired": "Restaurant address is required",
+    "restaurantPhoneRequired": "Restaurant phone is required",
+    "restaurantDescriptionRequired": "Restaurant description is required",
+    "restaurantCategoriesRequired": "Restaurant category is required",
+    "restaurantAveragePriceRequired": "Restaurant average price is required",
+    "restaurantOpenTimeRequired": "Restaurant open time is required",
+    "restaurantCloseTimeRequired": "Restaurant close time is required",
+    "restaurantMenuRequired": "Restaurant menu is required",
+    "restaurantOrdersRequired": "Restaurant orders is required"
   },
   "button": {
     "submit": "Submit",
@@ -93,7 +137,8 @@
     "save": "Save",
     "next": "Next",
     "back": "Back",
-    "close": "Close"
+    "close": "Close",
+    "loadAvatar": "Load avatar"
   },
   "categorySelected": {
     "chooseCategory": "Choose interesting categories",
