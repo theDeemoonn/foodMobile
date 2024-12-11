@@ -46,6 +46,7 @@
     "city": "Город",
     "country": "Страна",
     "interests": "Интересы",
+    "dontInterest": "Не интересуюсь",
     "description": "О себе",
     "favorites": "Любимые заведения",
     "editProfile": "Редактировать профиль",

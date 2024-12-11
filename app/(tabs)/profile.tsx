@@ -126,6 +126,14 @@ const UserProfile = observer(() => {
                                 usersStore.currentUser?.interests?.join(", "),
                             )}
                             <Divider style={styles.divider}/>
+                            {usersStore.currentUser?.dontInterest && <> renderInfoItem(
+                                "people-outline",
+                                i18n.t("profile.notInterests"),
+                                usersStore.currentUser?.dontInterest?.join(", "))
+                                <Divider style={styles.divider}/>
+                            </>
+                            }
+
                             {renderInfoItem(
                                 "receipt-outline",
                                 i18n.t("profile.description"),

@@ -45,6 +45,7 @@
     "city": "City",
     "country": "Country",
     "interests": "Interests",
+    "dontInterest": "Don't interest",
     "description": "About me",
     "favorites": "Favorites",
     "editProfile": "Edit profile",

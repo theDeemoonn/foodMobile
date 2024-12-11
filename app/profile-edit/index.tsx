@@ -26,6 +26,9 @@ const EditProfile = observer(() => {
     const [interests, setInterests] = useState(
         usersStore.currentUser?.interests || "",
     );
+    const [notInterests, setNotInterests] = useState(
+        usersStore.currentUser?.dontInterest || "",
+    )
     const [avatar, setAvatar] = useState(""); // Используем для хранения URI аватара
     const [description, setDescription] = useState(
         usersStore.currentUser?.description || "",
@@ -167,6 +170,14 @@ const EditProfile = observer(() => {
                         value={Array.isArray(interests) ? interests.join(", ") : interests}
                         onChangeText={setInterests}
                         errorMessage={errors.interests?.[0]}
+                    />
+                    <ThemedInput
+                        label={i18n.t("profile.dontInterest")}
+                        placeholder={i18n.t("profile.dontInterest")}
+                        style={styles.input}
+                        value={Array.isArray(notInterests) ? notInterests.join(", ") : notInterests}
+                        onChangeText={setNotInterests}
+                        errorMessage={errors.dontInterest?.[0]}
                     />
                     <ThemedInput
                         label={i18n.t("profile.description")}

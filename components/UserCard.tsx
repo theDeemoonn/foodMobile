@@ -24,6 +24,7 @@ const UserCard: React.FC<UserCardProps> = ({user, onPress}) => {
         description,
         interests,
         favorites = [],
+        dontInterest = [],
     } = user;
 
     return (
@@ -65,6 +66,23 @@ const UserCard: React.FC<UserCardProps> = ({user, onPress}) => {
                     {interests?.length > 3 && (
                         <ThemedText style={styles.moreInterests}>
                             +{interests?.length - 3}
+                        </ThemedText>
+                    )}
+                </ThemedView>
+                <ThemedView style={styles.interestsContainer}>
+                    {dontInterest
+                        ?.slice(0, 3)
+                        .map((dontInterest, index) => (
+                            <Chip
+                                key={index}
+                                title={dontInterest}
+                                buttonStyle={styles.dontInterestChip}
+                                titleStyle={styles.dontInterestChipText}
+                            />
+                        ))}
+                    {dontInterest?.length > 3 && (
+                        <ThemedText style={styles.moreInterests}>
+                            +{dontInterest?.length - 3}
                         </ThemedText>
                     )}
                 </ThemedView>
@@ -126,6 +144,15 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     interestChipText: {
+        fontSize: 12,
+        color: "white",
+    },
+    dontInterestChip: {
+        backgroundColor: Colors.light.block,
+        marginRight: 5,
+        marginBottom: 5,
+    },
+    dontInterestChipText: {
         fontSize: 12,
         color: "white",
     },
